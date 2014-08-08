@@ -14,6 +14,9 @@ ETAPAS DO TRABALHO
 - ETAPA 6
 - ETAPA 7
 
+OBS: o arquivo compila.sh contém os comandos para realizar a compilação. posteriormente criaremos um makefile.
+Para chamar este script basta escrever "sh compila.sh" no terminal.
+
 PEQUENO MANUAL DO GIT
 
 - para clonar este repositório
