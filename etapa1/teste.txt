@@ -1,0 +1,28 @@
+"uma string"
+int blablabla
+/* asdasdsadas
+sadasdasdad
+*/
+//int int
+a
+b
+c
+'c'
+'9'
+letra
+if teste
+loop
+byte 239
+<= 304
+;
+;
+(
+)
+++
+3A
+54A
+
+||
+true
+false
+
