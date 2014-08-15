@@ -1,0 +1,49 @@
+TRABALHO DA CADEIRA DE COMPILADORES
+PROJETO DE UM COMPILADOR DA LINGUAGEM
+
+INTEGRANTES DO GRUPO
+- PEDRO HENRIQUE PINTO MORALES
+
+ETAPAS DO TRABALHO
+- ETAPA 0: ok, disponibilizada no html do inf
+- ETAPA 1:
+	- VERIFICAR AS EXPRESSÕES REGULARES DO LEX
+	- REALIZAR MÚLTIPLOS TESTES PARA O RECONHECEDOR
+	- FORMATAR MELHOR A SAIDA
+	- COMPACTAR E ENVIAR PARA O HTML DO INF
+- ETAPA 2
+- ETAPA 3
+- ETAPA 4
+- ETAPA 5
+- ETAPA 6
+
+DICAS
+- para compactar arquivos de uma pasta: "tar cvzf nome_arquivo.tgz *.*"
+- para conectar no html do inf: "sftp html.inf.ufrgs.br"
+- para copiar um arquivo para o sftp: put etapa1.tgz"
+
+PEQUENO MANUAL DO GIT
+
+- para clonar este repositório
+  git clone https://github.com/phpmorales/compiladores.git
+  
+- para atualizar o repositório, toda vez antes de iniciar as atividades
+  git pull
+  
+- para verificar quais arquivos foram criados/alterados e ainda não foram comitados
+  git status
+  
+- para adicionar antes do commit algum arquivo novo criado
+  git add nome_do_arquivo 
+
+- para retirar da lista do 'git status'
+  git rm nome_do_arquivo
+  
+- para limpar a lista de arquivo do 'git status'
+  git clean -f
+  
+- para comitar as alterações realizadas
+  git commit -m "alguma mensagem para identificar"
+  
+- para enviar as alterações para o repositório
+  git push origin master
