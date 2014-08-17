@@ -84,29 +84,35 @@ void hashPrint(HASH_TABLE *table) {
     HASH_NODE *node;
 
     printf("\n-----------------------------------------");
-    printf("\nAGORA A TABELA HASG SERÁ MOSTRADA");
+    printf("\nNOW, THE HASH TABLE WILL BE SHOW");
     printf("\n-----------------------------------------\n");
     
     for (i = 0; i < MY_PRIME_NR+1; i++) {
         for (node = table->hashArray[i]; node != NULL; node = node->next) {
 		switch(node->type)
 		{
-			case LIT_TRUE: 		printf("Pos:[%d] - Tipo: LIT TRUE - Valor: %s \n",i , node->text);
+			case LIT_TRUE: 		
+				printf("POSITION:[%d] - TYPE: [LIT TRUE] - VALUE: [%s] \n",i , node->text);
 				break;
-			case LIT_FALSE: 	printf("Pos:[%d] - Tipo: LIT FALSE - Valor: %s \n",i , node->text);
+			case LIT_FALSE: 	
+				printf("POSITION:[%d] - TYPE: [LIT FALSE] - VALUE: [%s] \n",i , node->text);
 				break;
-			case LIT_INTEGER: 	printf("Pos:[%d] - Tipo: INT - Valor: %s \n",i , node->text);
+			case LIT_INTEGER: 	
+				printf("POSITION:[%d] - TYPE: [INT] - VALUE: [%s] \n",i , node->text);
 				break;
-			case LIT_CHAR:		printf("Pos:[%d] - Tipo: CHAR - Valor: %s \n",i ,  node->text);
+			case LIT_CHAR:		
+				printf("POSITION:[%d] - TYPE: [CHAR] - VALUE: [%s] \n",i ,  node->text);
 				break;
-			case LIT_STRING:	printf("Pos:[%d] - Tipo: STRING - Valor: %s \n",i ,  node->text);
+			case LIT_STRING:	
+				printf("POSITION:[%d] - TYPE: [STRING] - VALUE: [%s] \n",i ,  node->text);
 				break;
-			default:		printf("Pos:[%d] - Identificador: %s \n",i ,  node->text);
+			default:		
+				printf("POSITION:[%d] - IDENTIFIER: [%s] \n",i ,  node->text);
 				break;
 		}
         }
     }    
    printf("-----------------------------------------");
-   printf("\nFIM DA TABELA HASH");   
+   printf("\nEND OF HASH TABLE");   
    printf("\n-----------------------------------------\n"); 
 }
