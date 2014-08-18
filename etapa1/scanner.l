@@ -30,11 +30,11 @@ char* subString (const char* input, int offset, int len, char* dest);
 "output"		{ return KW_OUTPUT; }
 "return"		{ return KW_RETURN; }
 
-true	{ 
+TRUE	{ 
 	hashInsert(&hashTable, LIT_TRUE, yytext);
 	return LIT_TRUE;
 }
-false	{ 
+FALSE	{ 
 	hashInsert(&hashTable, LIT_FALSE, yytext);
 	return LIT_FALSE;
 } 
@@ -50,6 +50,7 @@ false	{
 }
 
 '.'	{
+	if(strlen(yytext)==2) return TOKEN_ERROR;//caso char seja vazio
 	char var[0];
 	var[0] = yytext[1]; //para remover as aspas
 	hashInsert(&hashTable, LIT_CHAR, var);
@@ -57,7 +58,7 @@ false	{
 }   
 
 ["][^"]*["]	{
-	
+	if(strlen(yytext)==2) return TOKEN_ERROR;
 	hashInsert(&hashTable, LIT_STRING, yytext);
 	return LIT_STRING;
 }
