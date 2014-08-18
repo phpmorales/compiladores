@@ -1,5 +1,5 @@
 "uma string"
-int blablabla
+int 0lablabla
 /* tem que desconsiderar
 multiplas linhas para comentario
 */
@@ -21,13 +21,17 @@ byte 239
 )
 ++
 3A
-54A
+52121432A
+12ion321k3jn213
+392y32ibe23hdb
 if{
-
+1lq1e33d23
 }
 else{
 }
 ||
 true
+TRUE
 false
+FALSE
 
