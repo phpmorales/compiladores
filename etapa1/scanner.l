@@ -39,7 +39,7 @@ FALSE	{
 	return LIT_FALSE;
 } 
 
-[0-9][a-zA-Z_][a-zA-Z0-9_]*	{ 
+[0-9][0-9A-Za-z_]*[A-Za-z_][0-9A-Za-z_]*	{ 
 	hashInsert(&hashTable, TK_IDENTIFIER, yytext); 
 	return TK_IDENTIFIER; 
 }
