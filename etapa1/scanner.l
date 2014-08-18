@@ -19,6 +19,17 @@ char* subString (const char* input, int offset, int len, char* dest);
 
 %%
 
+"word"			{ return KW_WORD; }
+"bool"			{ return KW_BOOL; }
+"byte"			{ return KW_BYTE; }
+"if"			{ return KW_IF; }
+"then"			{ return KW_THEN; }
+"else"			{ return KW_ELSE; }
+"loop"			{ return KW_LOOP; }
+"input"			{ return KW_INPUT; }
+"output"		{ return KW_OUTPUT; }
+"return"		{ return KW_RETURN; }
+
 true	{ 
 	hashInsert(&hashTable, LIT_TRUE, yytext);
 	return LIT_TRUE;
@@ -28,22 +39,25 @@ false	{
 	return LIT_FALSE;
 } 
 
-[a-zA-Z_][a-zA-Z0-9_]*	{ 
+[0-9][a-zA-Z_][a-zA-Z0-9_]*	{ 
 	hashInsert(&hashTable, TK_IDENTIFIER, yytext); 
 	return TK_IDENTIFIER; 
 }
 
-[0-9][0-9a-fA-F]*	{ 
+[0-9][0-9]*	{ 
 	hashInsert(&hashTable, LIT_INTEGER, yytext);
 	return LIT_INTEGER; 
 }
 
-'.'	{ 
-	hashInsert(&hashTable, LIT_CHAR, yytext);
+'.'	{
+	char var[0];
+	var[0] = yytext[1]; //para remover as aspas
+	hashInsert(&hashTable, LIT_CHAR, var);
 	return LIT_CHAR; 
 }   
 
 ["][^"]*["]	{
+	
 	hashInsert(&hashTable, LIT_STRING, yytext);
 	return LIT_STRING;
 }
@@ -64,6 +78,7 @@ false	{
 "\n"		{ ++LineNumber; }
 [ \t\v\f]+	{ }
 
+[a-zA-Z][a-zA-Z0-9_]*	{ return TOKEN_ERROR; }
 .		{ return TOKEN_ERROR; }
 
 <COMM>"*/"	BEGIN(INITIAL);
@@ -94,16 +109,4 @@ int yywrap()
 	return 1;
 }
 
-char* subString (const char* input, int offset, int len, char* dest)
-{
-  int input_len = strlen (input);
-
-  if (offset + len > input_len)
-  {
-     return NULL;
-  }
-
-  strncpy (dest, input + offset, len);
-  return dest;
-}
 

@@ -1,5 +1,5 @@
-"uma string"
-int blablabla
+"u"
+output asej 8_
 /* asdasdsadas
 sadasdasdad
 */
@@ -7,7 +7,7 @@ sadasdasdad
 a
 b
 c
-'c'
+'rc'
 '9'
 letra
 if teste

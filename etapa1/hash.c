@@ -30,7 +30,12 @@ int hashInsert(HASH_TABLE *table, int type, char *text) {
 	// se achar
 	if(hashSeek(table,type,text)!=NULL)
 		return -1;
-
+	if(type == LIT_STRING){
+		char *p = text;
+		p[strlen(p)-1] = 0; 
+		memmove(text, text+1, strlen(text));
+	}
+	
 	address = getHashCode(text);
 	node = table->hashArray[address];
 	newNode = malloc(sizeof(HASH_NODE));
@@ -84,7 +89,7 @@ void hashPrint(HASH_TABLE *table) {
     HASH_NODE *node;
 
     printf("\n-----------------------------------------");
-    printf("\nNOW, THE HASH TABLE WILL BE SHOW");
+    printf("\nNOW, THE HASH TABLE WILL BE SHOWN");
     printf("\n-----------------------------------------\n");
     
     for (i = 0; i < MY_PRIME_NR+1; i++) {

@@ -6,12 +6,12 @@ int main(int argc, char *argv[])
 	
 	if (argc<2)
 	{
-		fprintf(stderr, "Ops! Call me with the filename. Try type 'etapa1 <nome_do_arquivo>'\n");
+		fprintf(stderr, "Ops! Call me with the filename. Try typing 'etapa1 <nome_do_arquivo>'\n");
 		exit (1);
 	}
 	if (!(yyin = fopen(argv[1], "r")))
 	{
-		fprintf(stderr, "There is some error. It is not possible open the file!\n");
+		fprintf(stderr, "There is an error. It is not possible to open the file!\n");
 		fprintf(stderr, "Check if the file path is correct and try again!\n");
 		exit(1);
 	}
@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
 	printf("\n-----------------------------------------\n");
 
 	printf("\n-----------------------------------------");
-	printf("\nNOW WILL THE FILE WILL BE READ");
+	printf("\nNOW THE FILE WILL BE READ");
 	printf("\nPLEASE WAIT, MAKING THE PARSER...");
 	printf("\n-----------------------------------------\n");
 	
