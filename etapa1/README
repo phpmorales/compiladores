@@ -2,11 +2,11 @@ TRABALHO DA CADEIRA DE COMPILADORES
 PROJETO DE UM COMPILADOR DA LINGUAGEM
 
 INTEGRANTES DO GRUPO
-- PEDRO HENRIQUE PINTO MORALES
+- Miller e Pedro
 
 ETAPAS DO TRABALHO
-- ETAPA 0
-- ETAPA 1
+- ETAPA 0~ Done
+- ETAPA 1~ To test
 - ETAPA 2
 - ETAPA 3
 - ETAPA 4
@@ -42,6 +42,3 @@ PEQUENO MANUAL DO GIT
   
 - para enviar as alterações para o repositório
   git push origin master
-
-  
-
