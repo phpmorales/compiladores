@@ -1,7 +1,7 @@
 #ifndef HASH_TABLE_H
 #define HASH_TABLE_H
 
-#define MAX_SIZE	3209
+#define MY_PRIME_NR	3209
 
 typedef struct sHASH_NODE {
     char *text;
@@ -10,7 +10,7 @@ typedef struct sHASH_NODE {
 } HASH_NODE;
 
 typedef struct {
-    HASH_NODE *hashArray[MAX_SIZE+1];
+    HASH_NODE *hashArray[MY_PRIME_NR+1];
 } HASH_TABLE;
 
 int hashInit(HASH_TABLE *table);
