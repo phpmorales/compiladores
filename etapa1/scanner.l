@@ -30,11 +30,11 @@ char* subString (const char* input, int offset, int len, char* dest);
 "output"		{ return KW_OUTPUT; }
 "return"		{ return KW_RETURN; }
 
-TRUE	{ 
+"TRUE"	{ 
 	hashInsert(&hashTable, LIT_TRUE, yytext);
 	return LIT_TRUE;
 }
-FALSE	{ 
+"FALSE"	{ 
 	hashInsert(&hashTable, LIT_FALSE, yytext);
 	return LIT_FALSE;
 } 
