@@ -1,0 +1,3 @@
+#!/bin/bash
+
+tar cvzf etapa1.tgz scanner.l tokens.h hash.c hash.h main.c Makefile
