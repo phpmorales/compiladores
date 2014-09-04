@@ -87,7 +87,7 @@ parameters:	data_type SYMBOL_IDENTIFIER
 		|
 		;
 
-block:		'{' commands '}'
+block:		'{' commands '}' ';'
 		;
 
 commands:	command ';' commands
@@ -110,9 +110,12 @@ output: 	expr
 		| expr ',' output
 		;
 			
-flux_control:	KW_LOOP '(' expr ')' block_ctrl
-		| KW_IF '(' expr ')' KW_THEN block_ctrl
-		| KW_IF '(' expr ')' KW_THEN block_ctrl KW_ELSE block_ctrl
+flux_control:	KW_LOOP '(' expr ')' '{' block_ctrl '}'
+		| KW_LOOP command ';'
+		| KW_IF '(' expr ')' KW_THEN '{' block_ctrl '}'
+		| KW_IF command ';'
+		| KW_IF '(' expr ')' KW_THEN '{' block_ctrl KW_ELSE  block_ctrl '}'
+		| KW_IF '(' expr ')' command KW_ELSE command ';'
 		;
 
 expr:		SYMBOL_IDENTIFIER
