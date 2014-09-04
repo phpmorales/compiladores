@@ -2,6 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "hash.h"
+
+//#define YYDEBUG 1
+//int yydebug = 1;
  
 extern int getLineNumber(void);
 extern int isRunning(void);
@@ -93,10 +96,8 @@ block:		'{' commands '}' ';'
 		;
  
 commands:	command ';' commands
-		| 
-		;
- 
-block_ctrl:	command
+		| command 
+		| block commands
 		;
  
 command:	SYMBOL_IDENTIFIER '=' expr
@@ -106,18 +107,18 @@ command:	SYMBOL_IDENTIFIER '=' expr
 		| KW_RETURN expr
 		| flux_control
 		| block
+		|
 		;
  
 output: 	expr
 		| expr ',' output
 		;
 			
-flux_control:	KW_LOOP '(' expr ')' '{' block_ctrl '}'
-		| KW_LOOP command ';'
-		| KW_IF '(' expr ')' KW_THEN '{' commands '}'
-		| KW_IF command ';'
-		| KW_IF '(' expr ')' KW_THEN '{' block_ctrl KW_ELSE  block_ctrl '}'
-		| KW_IF '(' expr ')' KW_ELSE command
+flux_control:	KW_IF expr KW_LOOP commands
+		| KW_IF expr KW_LOOP commands
+		| KW_IF expr KW_THEN commands
+		| KW_IF expr KW_THEN commands KW_ELSE commands
+		| KW_IF expr KW_ELSE commands
 		;
  
 expr:		SYMBOL_IDENTIFIER
