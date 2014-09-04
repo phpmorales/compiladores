@@ -1,39 +1,32 @@
-"uma string"
-int 0lablabla
-/* tem que desconsiderar
-multiplas linhas para comentario
-*/
-a
-b
-c
-'c'
-'9'
-//tem que desconsiderar
-letra
-if teste
-while (1)
-Loop
-byte 239
-<= 304
-;
-;
-(
-)
-"S"
-"Swwsq23213"
-++
-3A
-52121432A
-12ion321k3jn213
-392y32ibe23hdb
-if{
-1lq1e33d23
-}
-else{
-}
-||
-true
-TRUEa
-false
-FALSEa
+// UFRGS - Compiladores - Marcelo Johann - 2014/2
+
+word 1a:0;
+word 1v[10]:0 0 0 0 0 0 0 0 0 0; 
+word 1mat[1000];
+word $1pt:0;
+
+word 1main()
+  {
+  output "Digite um numero: ";
+  if (1i<10)
+  loop 
+    {
+    1a = 1incn(1a,1);
+    1i = 1i + 1;
+    };
+  output "Incrementado algumas vezes fica ",1a,"\n";
+  };
+
+word 1incn (word 1x, word 1n)
+  return 1x+1n;
+  
+word 1outra (word 1x, word 1n) 
+  {
+  if (1x < 1n) then { return 1x+1n; };
+  if (1x < 1n) else return 1x;
+  };
+
+word 1maisuma ()
+  {
+  };
 
