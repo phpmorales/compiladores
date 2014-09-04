@@ -6,7 +6,7 @@ extern int isRunning(void);
 
 int main(int argc, char *argv[])
 {	
-	int simb;
+	//int simb;
 	
 	initMe();
 	
@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
 
 	printf("\n-----------------------------------------");
 	printf("\nSTARTING PART 2");
-	printf("\nPLEASE WAIT, MAKING MAKING THE PARSER...");
+	printf("\nPLEASE WAIT, MAKING THE PARSER...");
 	printf("\n-----------------------------------------\n");
 	
 	while (isRunning())

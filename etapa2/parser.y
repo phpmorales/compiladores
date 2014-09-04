@@ -3,9 +3,9 @@
 #include <stdlib.h>
 #include "hash.h"
 
-
 extern int getLineNumber(void);
 extern int isRunning(void);
+
 %}
 
 %union
@@ -61,13 +61,13 @@ decl_global:	decl_var ';'
 		| decl_func
 		;
 
-decl_var:	data_type TK_IDENTIFIER ':' value
+decl_var:	data_type SYMBOL_IDENTIFIER ':' value
 		;
 
-decl_array:	data_type TK_IDENTIFIER '[' expr ']'
-		| data_type TK_IDENTIFIER '[' expr ']' ':' vetor_value
-		| data_type '$' TK_IDENTIFIER
-		| data_type '$' TK_IDENTIFIER ':' value
+decl_array:	data_type SYMBOL_IDENTIFIER '[' expr ']'
+		| data_type SYMBOL_IDENTIFIER '[' expr ']' ':' vetor_value
+		| data_type '$' SYMBOL_IDENTIFIER
+		| data_type '$' SYMBOL_IDENTIFIER ':' value
 		;
 
 decl_local:	decl_var
@@ -79,11 +79,11 @@ vetor_value:	value
 		| value vetor_value 
 		;
 
-decl_func:	data_type TK_IDENTIFIER '(' parameters ')' decl_local block
+decl_func:	data_type SYMBOL_IDENTIFIER '(' parameters ')' decl_local block
 		;
 
-parameters:	data_type TK_IDENTIFIER
-		| data_type TK_IDENTIFIER ',' parameters
+parameters:	data_type SYMBOL_IDENTIFIER
+		| data_type SYMBOL_IDENTIFIER ',' parameters
 		|
 		;
 
@@ -97,10 +97,10 @@ commands:	command ';' commands
 block_ctrl:	command
 		;
 
-command:	TK_IDENTIFIER '=' expr
-		| TK_IDENTIFIER '[' expr ']' '=' expr
+command:	SYMBOL_IDENTIFIER '=' expr
+		| SYMBOL_IDENTIFIER '[' expr ']' '=' expr
 		| KW_OUTPUT output
-		| KW_INPUT TK_IDENTIFIER
+		| KW_INPUT SYMBOL_IDENTIFIER
 		| KW_RETURN expr
 		| flux_control
 		| block
@@ -115,9 +115,9 @@ flux_control:	KW_LOOP '(' expr ')' block_ctrl
 		| KW_IF '(' expr ')' KW_THEN block_ctrl KW_ELSE block_ctrl
 		;
 
-expr:		TK_IDENTIFIER
-		| TK_IDENTIFIER '[' expr ']'
-		| TK_IDENTIFIER '(' param_func ')'
+expr:		SYMBOL_IDENTIFIER
+		| SYMBOL_IDENTIFIER '[' expr ']'
+		| SYMBOL_IDENTIFIER '(' param_func ')'
 		| value
 		| '(' expr ')'
 		| expr '+' expr
@@ -132,12 +132,12 @@ expr:		TK_IDENTIFIER
 		| expr OPERATOR_NE expr
 		| expr '<' expr
 		| expr '>' expr
-		| '*' TK_IDENTIFIER	
-		| '&' TK_IDENTIFIER
+		| '*' SYMBOL_IDENTIFIER	
+		| '&' SYMBOL_IDENTIFIER
 		;
 
-param_func:	TK_IDENTIFIER
-		| TK_IDENTIFIER ',' param_func
+param_func:	SYMBOL_IDENTIFIER
+		| SYMBOL_IDENTIFIER ',' param_func
 		| value
 		| value ',' param_func
 		|
@@ -148,11 +148,11 @@ data_type:	KW_WORD
 		| KW_BOOL
 		;
 
-value:		LIT_INTEGER
-		| LIT_TRUE
-		| LIT_FALSE
-		| LIT_CHAR
-		| LIT_STRING
+value:		SYMBOL_LIT_INTEGER
+		| SYMBOL_LIT_TRUE
+		| SYMBOL_LIT_FALSE
+		| SYMBOL_LIT_CHAR
+		| SYMBOL_LIT_STRING
 		;
 
 %%

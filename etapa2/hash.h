@@ -17,7 +17,7 @@ int hashInit(HASH_TABLE *table);
 
 int hashDestroy(HASH_TABLE *table);
 
-int hashInsert(HASH_TABLE *table, int type, char *text);
+HASH_NODE *hashInsert(HASH_TABLE *table, int type, char *text);
 
 void hashPrint(HASH_TABLE *table);
 

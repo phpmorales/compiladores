@@ -6,7 +6,7 @@
 
 int hashInit(HASH_TABLE *table) {
     int i;
-    for (i = 0; i < MAX_SIZE+1; i++)
+    for (i = 0; i < MAXSIZE+1; i++)
         table->hashArray[i] = NULL;
         
     return 0;
@@ -17,12 +17,12 @@ int getHashCode(char *text) {
     int i;
     
     for (i = 0; text[i] != '\0'; i++) {
-        address = (address * text[i]) % MAX_SIZE +  1;
+        address = (address * text[i]) % MAXSIZE +  1;
     }
     return address;
 }
 
-int hashInsert(HASH_TABLE *table, int type, char *text) {
+HASH_NODE *hashInsert(HASH_TABLE *table, int type, char *text) {
 	int address;
 	HASH_NODE *node, *newNode;
 	
@@ -74,7 +74,7 @@ int hashDestroy(HASH_TABLE *table) {
     int i;
     HASH_NODE *node;
     
-    for (i = 0; i < MAX_SIZE+1; i++) {
+    for (i = 0; i < MAXSIZE+1; i++) {
         for (node = table->hashArray[i]; node != NULL; node = node->next) {
             free(node);
         }
@@ -92,7 +92,7 @@ void hashPrint(HASH_TABLE *table) {
     printf("\nNOW, THE HASH TABLE WILL BE SHOWN");
     printf("\n-----------------------------------------\n");
     
-    for (i = 0; i < MAX_SIZE+1; i++) {
+    for (i = 0; i < MAXSIZE+1; i++) {
         for (node = table->hashArray[i]; node != NULL; node = node->next) {
 		switch(node->type)
 		{

@@ -32,36 +32,36 @@ char* subString (const char* input, int offset, int len, char* dest);
 "return"		{ return KW_RETURN; }
 
 "TRUE"	{ 
-	yylval.symbol = hashInsert(&hashTable, LIT_TRUE, yytext);
-	return LIT_TRUE;
+	yylval.symbol = hashInsert(&hashTable, SYMBOL_LIT_TRUE, yytext);
+	return SYMBOL_LIT_TRUE;
 }
 "FALSE"	{ 
-	yylval.symbol = hashInsert(&hashTable, LIT_FALSE, yytext);
-	return LIT_FALSE;
+	yylval.symbol = hashInsert(&hashTable, SYMBOL_LIT_FALSE, yytext);
+	return SYMBOL_LIT_FALSE;
 } 
 
 [0-9][0-9A-Za-z_]*[A-Za-z_][0-9A-Za-z_]*	{ 
-	yylval.symbol = hashInsert(&hashTable, TK_IDENTIFIER, yytext); 
-	return TK_IDENTIFIER; 
+	yylval.symbol = hashInsert(&hashTable, SYMBOL_IDENTIFIER, yytext); 
+	return SYMBOL_IDENTIFIER; 
 }
 
 [0-9][0-9]*	{ 
-	yylval.symbol = hashInsert(&hashTable, LIT_INTEGER, yytext);
-	return LIT_INTEGER; 
+	yylval.symbol = hashInsert(&hashTable, SYMBOL_LIT_INTEGER, yytext);
+	return SYMBOL_LIT_INTEGER; 
 }
 
 '.'	{
 	if(strlen(yytext)==2) return TOKEN_ERROR;//caso char seja vazio
 	char var[0];
 	var[0] = yytext[1]; //para remover as aspas
-	yylval.symbol = hashInsert(&hashTable, LIT_CHAR, var);
-	return LIT_CHAR; 
+	yylval.symbol = hashInsert(&hashTable, SYMBOL_LIT_CHAR, var);
+	return SYMBOL_LIT_CHAR; 
 }   
 
 ["][^"]*["]	{
 	if(strlen(yytext)==2) return TOKEN_ERROR;
-	yylval.symbol = hashInsert(&hashTable, LIT_STRING, yytext);
-	return LIT_STRING;
+	yylval.symbol = hashInsert(&hashTable, SYMBOL_LIT_STRING, yytext);
+	return SYMBOL_LIT_STRING;
 }
 
 ","|";"|":"|"("|")"|"["|"]"|"{"|"}"|"+"|"-"|"*"|"/"|"<"|">"|"="|"!"|"&"|"$"	{ return yytext[0]; }

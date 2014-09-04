@@ -22,7 +22,7 @@ int getHashCode(char *text) {
     return address;
 }
 
-int hashInsert(HASH_TABLE *table, int type, char *text) {
+HASH_NODE *hashInsert(HASH_TABLE *table, int type, char *text) {
 	int address;
 	HASH_NODE *node, *newNode;
 	
@@ -46,7 +46,7 @@ int hashInsert(HASH_TABLE *table, int type, char *text) {
  	newNode->next = node;
 	table->hashArray[address] = newNode;
   
-	return 0;    
+	return newNode;     
 }
 
 HASH_NODE *hashSeek(HASH_TABLE *table, int type, char *text) {
