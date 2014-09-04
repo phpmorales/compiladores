@@ -5,7 +5,7 @@
 
 
 extern int getLineNumber(void);
-
+extern int isRunning(void);
 %}
 
 %union
@@ -37,13 +37,14 @@ extern int getLineNumber(void);
 %token OPERATOR_AND	274
 %token OPERATOR_OR	275
 
-%token<symbol> UNDEFINED		0
-%token<symbol> TK_IDENTIFIER		1
-%token<symbol> LIT_INTEGER		2
-%token<symbol> LIT_FALSE		3
-%token<symbol> LIT_TRUE			4
-%token<symbol> LIT_CHAR			5
-%token<symbol> LIT_STRING		6
+%token<symbol> SYMBOL_UNDEFINED		0
+%token<symbol> SYMBOL_LIT_INTEGER	1
+%token<symbol> SYMBOL_LIT_FLOATING	2
+%token<symbol> SYMBOL_LIT_TRUE		3
+%token<symbol> SYMBOL_LIT_FALSE		4
+%token<symbol> SYMBOL_LIT_CHAR		5
+%token<symbol> SYMBOL_LIT_STRING	6
+%token<symbol> SYMBOL_IDENTIFIER	7
 
 %token TOKEN_ERROR		290
 
@@ -51,26 +52,26 @@ extern int getLineNumber(void);
 
 %%
 
-program:	gl_dec program
+program:	decl_global program
 		|
 		;
 
-gl_dec:		var_dec ';'
-		| vetor_dec ';'
-		| func_dec
+decl_global:	decl_var ';'
+		| decl_array ';'
+		| decl_func
 		;
 
-var_dec:	data_type TK_IDENTIFIER ':' value
+decl_var:	data_type TK_IDENTIFIER ':' value
 		;
 
-vetor_dec:	data_type TK_IDENTIFIER '[' expr ']'
+decl_array:	data_type TK_IDENTIFIER '[' expr ']'
 		| data_type TK_IDENTIFIER '[' expr ']' ':' vetor_value
 		| data_type '$' TK_IDENTIFIER
 		| data_type '$' TK_IDENTIFIER ':' value
 		;
 
-local_dec:	var_dec
-		| var_dec ';' local_dec
+decl_local:	decl_var
+		| decl_var ';' decl_local
 		|
 		;
 
@@ -78,7 +79,7 @@ vetor_value:	value
 		| value vetor_value 
 		;
 
-func_dec:	data_type TK_IDENTIFIER '(' parameters ')' local_dec block
+decl_func:	data_type TK_IDENTIFIER '(' parameters ')' decl_local block
 		;
 
 parameters:	data_type TK_IDENTIFIER
@@ -86,17 +87,17 @@ parameters:	data_type TK_IDENTIFIER
 		|
 		;
 
-block:		'{' comands '}'
+block:		'{' commands '}'
 		;
 
-comands:	comand ';' comands
+commands:	command ';' commands
 		| 
 		;
 
-block_ctrl:	comand
+block_ctrl:	command
 		;
 
-comand:		TK_IDENTIFIER '=' expr
+command:	TK_IDENTIFIER '=' expr
 		| TK_IDENTIFIER '[' expr ']' '=' expr
 		| KW_OUTPUT output
 		| KW_INPUT TK_IDENTIFIER
@@ -116,7 +117,7 @@ flux_control:	KW_LOOP '(' expr ')' block_ctrl
 
 expr:		TK_IDENTIFIER
 		| TK_IDENTIFIER '[' expr ']'
-		| TK_IDENTIFIER '(' func_param ')'
+		| TK_IDENTIFIER '(' param_func ')'
 		| value
 		| '(' expr ')'
 		| expr '+' expr
@@ -135,10 +136,10 @@ expr:		TK_IDENTIFIER
 		| '&' TK_IDENTIFIER
 		;
 
-func_param:	TK_IDENTIFIER
-		| TK_IDENTIFIER ',' func_param
+param_func:	TK_IDENTIFIER
+		| TK_IDENTIFIER ',' param_func
 		| value
-		| value ',' func_param
+		| value ',' param_func
 		|
 		;	
 

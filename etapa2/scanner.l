@@ -1,14 +1,15 @@
 %{
 #include <stdio.h>
-#include <stdlib.h>
-#include "tokens.h"	
+#include <stdlib.h>	
 #include "hash.h"
+#include "y.tab.h"
 
 HASH_TABLE hashTable;
 int LineNumber = 1;
 int runningFlag = 1;
 
 void initMe(void);
+
 int getLineNumber(void);
 int isRunning(void);
 char* subString (const char* input, int offset, int len, char* dest);
@@ -31,21 +32,21 @@ char* subString (const char* input, int offset, int len, char* dest);
 "return"		{ return KW_RETURN; }
 
 "TRUE"	{ 
-	hashInsert(&hashTable, LIT_TRUE, yytext);
+	yylval.symbol = hashInsert(&hashTable, LIT_TRUE, yytext);
 	return LIT_TRUE;
 }
 "FALSE"	{ 
-	hashInsert(&hashTable, LIT_FALSE, yytext);
+	yylval.symbol = hashInsert(&hashTable, LIT_FALSE, yytext);
 	return LIT_FALSE;
 } 
 
 [0-9][0-9A-Za-z_]*[A-Za-z_][0-9A-Za-z_]*	{ 
-	hashInsert(&hashTable, TK_IDENTIFIER, yytext); 
+	yylval.symbol = hashInsert(&hashTable, TK_IDENTIFIER, yytext); 
 	return TK_IDENTIFIER; 
 }
 
 [0-9][0-9]*	{ 
-	hashInsert(&hashTable, LIT_INTEGER, yytext);
+	yylval.symbol = hashInsert(&hashTable, LIT_INTEGER, yytext);
 	return LIT_INTEGER; 
 }
 
@@ -53,13 +54,13 @@ char* subString (const char* input, int offset, int len, char* dest);
 	if(strlen(yytext)==2) return TOKEN_ERROR;//caso char seja vazio
 	char var[0];
 	var[0] = yytext[1]; //para remover as aspas
-	hashInsert(&hashTable, LIT_CHAR, var);
+	yylval.symbol = hashInsert(&hashTable, LIT_CHAR, var);
 	return LIT_CHAR; 
 }   
 
 ["][^"]*["]	{
 	if(strlen(yytext)==2) return TOKEN_ERROR;
-	hashInsert(&hashTable, LIT_STRING, yytext);
+	yylval.symbol = hashInsert(&hashTable, LIT_STRING, yytext);
 	return LIT_STRING;
 }
 

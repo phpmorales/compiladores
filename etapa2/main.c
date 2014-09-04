@@ -1,3 +1,9 @@
+#include <stdio.h>
+#include "hash.h"
+#include "y.tab.h"
+
+extern int isRunning(void);
+
 int main(int argc, char *argv[])
 {	
 	int simb;
@@ -25,8 +31,8 @@ int main(int argc, char *argv[])
 	printf("\n-----------------------------------------\n");
 
 	printf("\n-----------------------------------------");
-	printf("\nNOW THE FILE WILL BE READ");
-	printf("\nPLEASE WAIT, MAKING THE PARSER...");
+	printf("\nSTARTING PART 2");
+	printf("\nPLEASE WAIT, MAKING MAKING THE PARSER...");
 	printf("\n-----------------------------------------\n");
 	
 	while (isRunning())
@@ -44,7 +50,7 @@ int main(int argc, char *argv[])
    	hashPrint(&hashTable);
 
         printf("\n-----------------------------------------");
-	printf("\nPART 1 DONE!");
+	printf("\nPART 2 DONE!");
 	printf("\n-----------------------------------------\n\n");
 
 	return 0;
