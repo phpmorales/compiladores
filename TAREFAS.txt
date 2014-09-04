@@ -6,12 +6,8 @@ INTEGRANTES DO GRUPO
 
 ETAPAS DO TRABALHO
 - ETAPA 0: ok, disponibilizada no html do inf
-- ETAPA 1:
-	- VERIFICAR AS EXPRESSÕES REGULARES DO LEX
-	- REALIZAR MÚLTIPLOS TESTES PARA O RECONHECEDOR
-	- FORMATAR MELHOR A SAIDA
-	- COMPACTAR E ENVIAR PARA O HTML DO INF
-- ETAPA 2
+- ETAPA 1: ok, disponibilizada no html do inf
+- ETAPA 2: ok, disponibilizado no html do inf
 - ETAPA 3
 - ETAPA 4
 - ETAPA 5
