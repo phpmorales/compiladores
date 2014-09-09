@@ -1,0 +1,35 @@
+etapa3: y.tab.c y.tab.o lex.yy.c lex.yy.o hash.o astree.o 
+	gcc -o etapa3 bin/astree.o bin/hash.o bin/y.tab.o bin/lex.yy.o -Wall 
+
+y.tab.o:
+	gcc -c src/y.tab.c -Wall
+	mv y.tab.o bin
+
+y.tab.c:
+	yacc tool/parser.y -d
+	mv y.tab.c src
+	mv y.tab.h include
+
+lex.yy.o:
+	gcc -c src/lex.yy.c -Wall
+	mv lex.yy.o bin
+
+lex.yy.c:
+	lex tool/scanner.l
+	mv lex.yy.c src
+
+hash.o:
+	gcc -c src/hash.c -Wall
+	mv hash.o bin
+ 
+astree.o:
+	gcc -c src/astree.c -Wall
+	mv astree.o bin
+
+clean:
+	rm -rf etapa3
+	rm -rf bin/*.o
+	rm -rf src/lex.yy.*
+	rm -rf src/y.tab.*
+	rm etapa3
+
