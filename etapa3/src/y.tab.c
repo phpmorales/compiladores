@@ -72,11 +72,16 @@
 //#define YYDEBUG 1
 int yydebug = 1;
  
+
 extern int getLineNumber(void);
 extern int isRunning(void);
+
+int yyerror(char* str);
+extern int yylex();
+
  
 
-#line 80 "y.tab.c" /* yacc.c:339  */
+#line 85 "y.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -170,13 +175,13 @@ extern int yydebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 16 "tool/parser.y" /* yacc.c:355  */
+#line 21 "tool/parser.y" /* yacc.c:355  */
 
 	ASTREE* astree;
 	HASH_NODE *symbol;
 	
 
-#line 180 "y.tab.c" /* yacc.c:355  */
+#line 185 "y.tab.c" /* yacc.c:355  */
 };
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
@@ -191,7 +196,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 195 "y.tab.c" /* yacc.c:358  */
+#line 200 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -440,7 +445,7 @@ union yyalloc
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  18
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  74
+#define YYNRULES  73
 /* YYNSTATES -- Number of states.  */
 #define YYNSTATES  132
 
@@ -492,14 +497,14 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    62,    62,    63,    66,    67,    68,    71,    74,    75,
-      76,    77,    80,    81,    82,    85,    86,    89,    90,    93,
-      94,    95,    98,    99,   102,   102,   103,   104,   107,   108,
-     109,   110,   111,   112,   113,   114,   117,   118,   121,   122,
-     123,   124,   125,   128,   129,   130,   131,   132,   133,   134,
-     135,   136,   137,   138,   139,   140,   141,   142,   143,   144,
-     145,   146,   149,   150,   151,   152,   153,   156,   157,   158,
-     161,   162,   163,   164,   165
+       0,    67,    67,    68,    71,    72,    73,    76,    79,    80,
+      81,    82,    85,    86,    87,    90,    91,    94,    95,    98,
+      99,   100,   103,   104,   107,   107,   108,   109,   112,   113,
+     114,   115,   116,   117,   118,   119,   122,   123,   126,   127,
+     128,   129,   132,   133,   134,   135,   136,   137,   138,   139,
+     140,   141,   142,   143,   144,   145,   146,   147,   148,   149,
+     150,   153,   154,   155,   156,   157,   160,   161,   162,   165,
+     166,   167,   168,   169
 };
 #endif
 
@@ -571,20 +576,20 @@ static const yytype_int16 yypact[] =
      means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       3,    67,    69,    68,     0,     3,     0,     0,     6,     0,
+       3,    66,    68,    67,     0,     3,     0,     0,     6,     0,
        1,     2,     4,     5,     0,     0,     0,     0,    21,    10,
-      70,    71,    72,    73,    74,     7,     0,    43,     0,     0,
-       0,    46,     0,     0,     0,    60,     0,    66,     0,    61,
+      69,    70,    71,    72,    73,     7,     0,    42,     0,     0,
+       0,    45,     0,     0,     0,    59,     0,    65,     0,    60,
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     8,    14,    19,    11,     0,    62,     0,    64,
-      47,    52,    53,    54,    55,    56,    57,    58,    59,    48,
-      49,    50,    51,     0,    12,    24,     0,    21,    44,    66,
-      45,    66,     9,    15,    14,     0,     0,     0,     0,     0,
-      35,    17,    18,    25,    33,     0,    20,    63,    65,    16,
+       0,     0,     8,    14,    19,    11,     0,    61,     0,    63,
+      46,    51,    52,    53,    54,    55,    56,    57,    58,    47,
+      48,    49,    50,     0,    12,    24,     0,    21,    43,    65,
+      44,    65,     9,    15,    14,     0,     0,     0,     0,     0,
+      35,    17,    18,    25,    33,     0,    20,    62,    64,    16,
       13,     0,    31,    32,    30,    36,     0,     0,     0,    24,
        0,    27,    24,    24,    24,    24,     0,    28,     0,    23,
-       0,    26,    40,    42,    38,    37,     0,    22,    24,     0,
-      41,    29
+       0,    26,    39,    41,    38,    37,     0,    22,    24,     0,
+      40,    29
 };
 
   /* YYPGOTO[NTERM-NUM].  */
@@ -697,10 +702,10 @@ static const yytype_uint8 yyr1[] =
       49,    49,    50,    50,    50,    51,    51,    52,    52,    53,
       53,    53,    54,    54,    55,    55,    55,    55,    56,    56,
       56,    56,    56,    56,    56,    56,    57,    57,    58,    58,
-      58,    58,    58,    59,    59,    59,    59,    59,    59,    59,
+      58,    58,    59,    59,    59,    59,    59,    59,    59,    59,
       59,    59,    59,    59,    59,    59,    59,    59,    59,    59,
-      59,    59,    60,    60,    60,    60,    60,    61,    61,    61,
-      62,    62,    62,    62,    62
+      59,    60,    60,    60,    60,    60,    61,    61,    61,    62,
+      62,    62,    62,    62
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
@@ -710,10 +715,10 @@ static const yytype_uint8 yyr2[] =
        3,     5,     1,     3,     0,     1,     2,     7,     7,     2,
        4,     0,     4,     3,     0,     1,     3,     2,     3,     6,
        2,     2,     2,     1,     1,     0,     1,     3,     4,     4,
-       4,     6,     4,     1,     4,     4,     1,     3,     3,     3,
-       3,     3,     3,     3,     3,     3,     3,     3,     3,     3,
-       2,     2,     1,     3,     1,     3,     0,     1,     1,     1,
-       1,     1,     1,     1,     1
+       6,     4,     1,     4,     4,     1,     3,     3,     3,     3,
+       3,     3,     3,     3,     3,     3,     3,     3,     3,     2,
+       2,     1,     3,     1,     3,     0,     1,     1,     1,     1,
+       1,     1,     1,     1
 };
 
 
@@ -1390,7 +1395,7 @@ yyreduce:
   switch (yyn)
     {
       
-#line 1394 "y.tab.c" /* yacc.c:1646  */
+#line 1399 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1618,7 +1623,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 168 "tool/parser.y" /* yacc.c:1906  */
+#line 172 "tool/parser.y" /* yacc.c:1906  */
 
  
  

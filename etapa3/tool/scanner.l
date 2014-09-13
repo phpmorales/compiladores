@@ -17,6 +17,9 @@ char* subString (const char* input, int offset, int len, char* dest);
 
 %}
 
+%option nounput
+%option noinput
+%option yylineno
 %x COMM
 
 %%

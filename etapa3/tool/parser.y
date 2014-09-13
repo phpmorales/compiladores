@@ -7,8 +7,13 @@
 //#define YYDEBUG 1
 int yydebug = 1;
  
+
 extern int getLineNumber(void);
 extern int isRunning(void);
+
+int yyerror(char* str);
+extern int yylex();
+
  
 %}
  
@@ -119,7 +124,6 @@ output: 	expr
 		;
 			
 flux_control:	KW_IF expr KW_LOOP commands
-		| KW_IF expr KW_LOOP commands
 		| KW_IF expr KW_THEN commands
 		| KW_IF expr KW_THEN commands KW_ELSE commands
 		| KW_IF expr KW_ELSE commands

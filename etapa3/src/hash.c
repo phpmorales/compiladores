@@ -7,7 +7,8 @@
 
 int hashInit(HASH_TABLE *table) {
     int i;
-    for (i = 0; i < MAXSIZE+1; i++)
+
+    for (i = 0; i < MAXSIZE + 1; i++)
         table->hashArray[i] = NULL;
         
     return 0;
@@ -29,14 +30,11 @@ HASH_NODE *hashInsert(HASH_TABLE *table, int type, char *text) {
 	
 
 	// se achar
-	if(hashSeek(table,type,text)!=NULL)
-		return -1;
-	if(type == LIT_STRING){
-		char *p = text;
-		p[strlen(p)-1] = 0; 
-		memmove(text, text+1, strlen(text));
+	if(hashSeek(table,type,text)!=NULL){
+	//	fprintf(stderr, "hue");
+		return (hashSeek(table,type,text));
 	}
-	
+
 	address = getHashCode(text);
 	node = table->hashArray[address];
 	newNode = malloc(sizeof(HASH_NODE));
@@ -47,7 +45,7 @@ HASH_NODE *hashInsert(HASH_TABLE *table, int type, char *text) {
  	newNode->next = node;
 	table->hashArray[address] = newNode;
   
-	return newNode;     
+	return newNode;    
 }
 
 HASH_NODE *hashSeek(HASH_TABLE *table, int type, char *text) {
