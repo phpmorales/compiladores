@@ -13,7 +13,6 @@ void initMe(void);
 
 int getLineNumber(void);
 int isRunning(void);
-char* subString (const char* input, int offset, int len, char* dest);
 
 %}
 

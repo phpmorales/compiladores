@@ -2,7 +2,6 @@
 #ifndef ASTREE_HEADER
 #define ASTREE_HEADER
 
-
 #define ASTREE_VECTOR_ID 1
 #define ASTREE_VECTOR 2
 #define ASTREE_DIV 3
@@ -59,6 +58,8 @@
 #define ASTREE_DECFUNC 54
 #define ASTREE_GLOBAL 55
 #define ASTREE_SINGLE_OUTPUT 56
+
+#define ASTREE_ELSE 57
 
 #define MAX_CHILDREN 4
 

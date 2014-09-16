@@ -5,7 +5,7 @@
 
 extern int getLineNumber(void);
 extern FILE *output;
-
+int lastLevel;
 
 ASTREE* AstreeCreate (int type, HASH_NODE* symbol, ASTREE* s0, ASTREE* s1, ASTREE* s2, ASTREE* s3)
 {
@@ -25,10 +25,12 @@ void astreePrintSingle (ASTREE *node,int level)
 	if (!node)
 		return;
 
-	fprintf(stderr, "\n%d: ", node->lineNumber); 
+        fprintf(stderr, "\n");
+	//fprintf(stderr, "\n%d: ", node->lineNumber); 
 	int i;
-	for(i=0; i<level; i++)
-		fprintf(stderr, "\t");
+	for(i=0; i<level; i++){
+		fprintf(stderr, "   ");                
+        }
 
 	switch (node->type)
 	{	
@@ -39,7 +41,7 @@ void astreePrintSingle (ASTREE *node,int level)
 						fprintf(output, "%s",node->symbol->text); 
 						break;
 
-	// Tipos de dados
+	        // Tipos de dados
 		case ASTREE_KW_WORD: 		
 						fprintf(stderr, "ASTREE_KW_WORD");
 						fprintf(output, "word");
@@ -52,7 +54,7 @@ void astreePrintSingle (ASTREE *node,int level)
 						fprintf(stderr, "ASTREE_KW_BOOL"); 
 						fprintf(output, "bool");
 						break;
-	// Operaçoes
+	        // Operaçoes
 		case ASTREE_DIV: 		
 						fprintf(stderr, "ASTREE_DIV");
 						astreePrintSingle(node->son[0],level+1);
@@ -125,7 +127,7 @@ void astreePrintSingle (ASTREE *node,int level)
 						fprintf(output, ">");
 						astreePrintSingle(node->son[1],level+1);
 						break;
-	// Literais
+	        // Literais
 		case ASTREE_LIT_INTEGER: 	
 						fprintf(stderr, "ASTREE_LIT_INTEGER"); 
 						fprintf(output, "%s",node->symbol->text); 
@@ -146,47 +148,54 @@ void astreePrintSingle (ASTREE *node,int level)
 						fprintf(stderr, "ASTREE_LIT_STRING"); 
 						fprintf(output, "%s",node->symbol->text); 
 						break;
-	// Fluxo
+	        // Fluxo
 		case ASTREE_IF: 		
 						fprintf(stderr, "ASTREE_IF"); 
 						fprintf(output, "\nif ("); 
 						astreePrintSingle(node->son[0],level+1);
-						fprintf(output, ") then \n");
+						fprintf(output, ") then");
 						astreePrintSingle(node->son[1],level+1);
 						break;
 		case ASTREE_IF_ELSE: 		
 						fprintf(stderr, "ASTREE_IF_ELSE"); 
 						fprintf(output, "\nif ("); 
 						astreePrintSingle(node->son[0],level+1);
-						fprintf(output, ") then \n");
+						fprintf(output, ") then");
 						astreePrintSingle(node->son[1],level+1);
 						fprintf(output, "\nelse");
 						astreePrintSingle(node->son[2],level+1);
+						break;
+		case ASTREE_ELSE: 		
+						fprintf(stderr, "ASTREE_ELSE"); 
+						fprintf(output, "\nif ("); 
+						astreePrintSingle(node->son[0],level+1);
+						fprintf(output, ") else ");
+						astreePrintSingle(node->son[1],level+1);
 						break;
 		case ASTREE_LOOP: 		
 						fprintf(stderr, "ASTREE_LOOP"); 
 						fprintf(output, "\nloop ("); 
 						astreePrintSingle(node->son[0],level+1);
-						fprintf(output, ")\n");
+						fprintf(output, ")");
 						astreePrintSingle(node->son[1],level+1);
 						break;
 
 		case ASTREE_DEC_GLOBAL: 	fprintf(stderr, "ASTREE_DEC_GLOBAL"); break;
 		case ASTREE_DEC_LOCAL: 		fprintf(stderr, "ASTREE_DEC_LOCAL"); break;
 
-	// Declaracoes
+	        // Declaracoes
 		case ASTREE_VAR: 		
 						fprintf(stderr, "ASTREE_VAR");	
-						fprintf(output, "\n"); 	
+						//fprintf(output, "\n"); 	
 						astreePrintSingle(node->son[0],level+1);
 						fprintf(output, " %s",node->symbol->text); 	
 						fprintf(output, ":"); 	
 						astreePrintSingle(node->son[1],level+1);	
-						fprintf(output, ";"); 	
+						fprintf(output, ";\n"); 	
 						break;
 		case ASTREE_VECTOR: 		
 						fprintf(stderr, "ASTREE_VECTOR");
-						fprintf(output, "\n"); 	
+						//fprintf(output, "\n"); 	
 						astreePrintSingle(node->son[0],level+1);
 						fprintf(output, " %s",node->symbol->text); 	
 						fprintf(output, "["); 	
@@ -197,11 +206,11 @@ void astreePrintSingle (ASTREE *node,int level)
 							fprintf(output, ":"); 	
 							astreePrintSingle(node->son[2],level+1); 
 							}
-						fprintf(output, ";"); 	
+						fprintf(output, ";\n"); 	
 						break;
 		case ASTREE_PONT: 		
 						fprintf(stderr, "ASTREE_PONT"); 
-						fprintf(output, "\n"); 	
+						//fprintf(output, "\n"); 	
 						astreePrintSingle(node->son[0],level+1);
 						fprintf(output, " $"); 	
 						fprintf(output, "%s",node->symbol->text); 
@@ -210,7 +219,7 @@ void astreePrintSingle (ASTREE *node,int level)
 							fprintf(output, ":");
 							astreePrintSingle(node->son[1],level+1);	
 							}
-						fprintf(output, ";"); 	
+						fprintf(output, ";\n"); 	
 						break;
 
 
@@ -218,7 +227,7 @@ void astreePrintSingle (ASTREE *node,int level)
 						fprintf(stderr, "ASTREE_LIST_VAR"); 
 						astreePrintSingle(node->son[0],level);
 						astreePrintSingle(node->son[1],level);
-						//fprintf(output, ";");
+						//fprintf(output, ";\n");
 						break;
 
 		case ASTREE_LIST_VEC: 		fprintf(stderr, "ASTREE_LIST_VEC"); break;
@@ -228,12 +237,12 @@ void astreePrintSingle (ASTREE *node,int level)
 		case ASTREE_COMAND: 		
 						fprintf(stderr, "ASTREE_COMAND"); 
 						astreePrintSingle(node->son[0],level+1);
-						fprintf(output, ";");
+						fprintf(output, ";\n");
 						break;
 		case ASTREE_COMANDLIST: 	
 						fprintf(stderr, "ASTREE_COMANDLIST"); 
 						astreePrintSingle(node->son[0],level+1);
-						fprintf(output, ";");
+						fprintf(output, ";\n");
 						astreePrintSingle(node->son[1],level+1);
 						break;
 
@@ -241,14 +250,14 @@ void astreePrintSingle (ASTREE *node,int level)
 
 		case ASTREE_COMANDBLK:		
 						fprintf(stderr, "ASTREE_COMANDBLK"); 
-						fprintf(output, "\n{"); 
+						fprintf(output, "\n{\n"); 
 						astreePrintSingle(node->son[0],level+1);
-						fprintf(output, "}\n"); 
+						fprintf(output, "}");
 						break;
 
 
 
-	// Comands
+	        // Comands
 		case ASTREE_EQUAL: 		
 						fprintf(stderr, "ASTREE_EQUAL"); 	
 						fprintf(output, " %s",node->symbol->text);
@@ -265,7 +274,7 @@ void astreePrintSingle (ASTREE *node,int level)
 						astreePrintSingle(node->son[1],level+1);
 						break;
 
-    // ARRUMEI
+                // ARRUMEI
 		case ASTREE_OUTPUT:		
 						fprintf(stderr, "ASTREE_OUTPUT");
 						fprintf(output, "output "); 
@@ -276,7 +285,7 @@ void astreePrintSingle (ASTREE *node,int level)
 						astreePrintSingle(node->son[0],level+1);
 						break;
 		case ASTREE_LIST_OUTPUT: 	
-                        fprintf(stderr, "ASTREE_LIST_OUTPUT");
+                                                fprintf(stderr, "ASTREE_LIST_OUTPUT");
 						astreePrintSingle(node->son[0],level+1);
 						fprintf(output, ", "); 
 						astreePrintSingle(node->son[1],level+1);
@@ -319,7 +328,7 @@ void astreePrintSingle (ASTREE *node,int level)
 						fprintf(output, "%s",node->symbol->text); 
 						break;
 
-	// Parametros
+	        // Parametros
 		case ASTREE_PARAM_FUNC: 		
 						fprintf(stderr, "ASTREE_PARAM_FUNC"); 
 						break;
@@ -359,7 +368,7 @@ void astreePrintSingle (ASTREE *node,int level)
 
 		case ASTREE_DECFUNC: 		
 						fprintf(stderr, "ASTREE_DECFUNC");; 
-						fprintf(output, "\n"); 	
+						//fprintf(output, "\n"); 	
 						astreePrintSingle(node->son[0],level+1);
 						fprintf(output, " %s",node->symbol->text); 
 						fprintf(output, "("); 	
@@ -393,6 +402,7 @@ void astreePrintSingle (ASTREE *node,int level)
 void astreePrintTree (ASTREE *node, int level)
 {
 	astreePrintSingle(node,0);
+        printf("\n\n");
 
 }
 

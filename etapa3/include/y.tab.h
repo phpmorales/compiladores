@@ -62,14 +62,14 @@ extern int yydebug;
     KW_INPUT = 266,
     KW_RETURN = 267,
     KW_OUTPUT = 268,
+    TOKEN_ERROR = 290,
     SYMBOL_LIT_INTEGER = 1,
     SYMBOL_LIT_FLOATING = 2,
     SYMBOL_LIT_TRUE = 3,
     SYMBOL_LIT_FALSE = 4,
     SYMBOL_LIT_CHAR = 5,
     SYMBOL_LIT_STRING = 6,
-    SYMBOL_IDENTIFIER = 7,
-    TOKEN_ERROR = 290
+    SYMBOL_IDENTIFIER = 7
   };
 #endif
 /* Tokens.  */
@@ -90,6 +90,7 @@ extern int yydebug;
 #define KW_INPUT 266
 #define KW_RETURN 267
 #define KW_OUTPUT 268
+#define TOKEN_ERROR 290
 #define SYMBOL_LIT_INTEGER 1
 #define SYMBOL_LIT_FLOATING 2
 #define SYMBOL_LIT_TRUE 3
@@ -97,7 +98,6 @@ extern int yydebug;
 #define SYMBOL_LIT_CHAR 5
 #define SYMBOL_LIT_STRING 6
 #define SYMBOL_IDENTIFIER 7
-#define TOKEN_ERROR 290
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
