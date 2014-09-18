@@ -551,7 +551,7 @@ char *yytext;
 #line 2 "tool/scanner.l"
 #include <stdio.h>
 #include <stdlib.h>
-#include "../include/astree.h"
+#include "../include/ast.h"
 #include "../include/hash.h"
 #include "../include/y.tab.h"
 

@@ -85,13 +85,13 @@ gl_dec:		var_dec ';' 	{ $$ = $1; }
 		| func_dec 	{ $$ = $1; }	
 		;
 
-var_dec		: data_type TK_IDENTIFIER ':' value		 { $$ = AstreeCreate(ASTREE_VAR,$2,$1,$4,0,0); }
+var_dec		: data_type TK_IDENTIFIER ':' value     { $$ = AstreeCreate(ASTREE_VAR,$2,$1,$4,0,0); }
 		;
 
-vetor_dec	: data_type TK_IDENTIFIER '[' expr ']' 			{ $$ = AstreeCreate(ASTREE_VECTOR,$2,$1,$4,0,0); }
-		| data_type TK_IDENTIFIER '[' expr ']' ':' vetor_value   	{ $$ = AstreeCreate(ASTREE_VECTOR,$2,$1,$4,$7,0); }
-		| data_type '$' TK_IDENTIFIER 					{ $$ = AstreeCreate(ASTREE_PONT,$3,$1,0,0,0); }
-		| data_type '$' TK_IDENTIFIER ':' value				{ $$ = AstreeCreate(ASTREE_PONT,$3,$1,$5,0,0); }
+vetor_dec	: data_type TK_IDENTIFIER '[' expr ']'                  { $$ = AstreeCreate(ASTREE_VECTOR,$2,$1,$4,0,0); }
+		| data_type TK_IDENTIFIER '[' expr ']' ':' vetor_value  { $$ = AstreeCreate(ASTREE_VECTOR,$2,$1,$4,$7,0); }
+		| data_type '$' TK_IDENTIFIER 				{ $$ = AstreeCreate(ASTREE_PONT,$3,$1,0,0,0); }
+		| data_type '$' TK_IDENTIFIER ':' value			{ $$ = AstreeCreate(ASTREE_PONT,$3,$1,$5,0,0); }
 		;
 
 local_dec:	var_dec 			{ $$ = $1; }

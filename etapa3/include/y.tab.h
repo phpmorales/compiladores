@@ -106,8 +106,8 @@ union YYSTYPE
 {
 #line 21 "tool/parser.y" /* yacc.c:1909  */
 
-	ASTREE* astree;
-	HASH_NODE *symbol;
+	ast*        ast;
+	HASH_NODE   *symbol;
 	
 
 #line 114 "y.tab.h" /* yacc.c:1909  */

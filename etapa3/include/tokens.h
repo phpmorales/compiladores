@@ -6,7 +6,7 @@
  * Assim, nao conflitam entre si e com os tokens representados pelo proprio
  * valor ascii de caracteres isolados. 
  */
- 
+
 #define KW_WORD       256
 #define KW_BOOL       258
 #define KW_BYTE       259

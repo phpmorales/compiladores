@@ -10,7 +10,7 @@ typedef struct sHASH_NODE {
 } HASH_NODE;
 
 typedef struct {
-    HASH_NODE *hashArray[MAXSIZE+1];
+    HASH_NODE *hashArray[MAXSIZE + 1];
 } HASH_TABLE;
 
 int hashInit(HASH_TABLE *table);

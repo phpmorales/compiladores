@@ -11,14 +11,19 @@ output "Digite um numero: ";
 if (1x<1n) then
 {
 return 1x+1n;
-}
+;
+};
 ;
 
 if (1x<1n) else return 1x;
 output "Incrementado algumas vezes fica ", 1a, "\n";
-}
 ;
+;
+;
+;
+;
+};
 word 1maisuma() 
 {
-}
 ;
+};
