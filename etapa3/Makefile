@@ -1,5 +1,5 @@
-etapa3: y.tab.c y.tab.o lex.yy.c lex.yy.o gv.o hash.o ast.o 
-	gcc -o etapa3 bin/ast.o bin/gv.o bin/hash.o bin/y.tab.o bin/lex.yy.o -Wall 
+etapa3: y.tab.c y.tab.o lex.yy.c lex.yy.o hash.o ast.o 
+	gcc -o etapa3 bin/ast.o bin/hash.o bin/y.tab.o bin/lex.yy.o -Wall
 
 y.tab.o:
 	gcc -c src/y.tab.c -Wall
@@ -18,10 +18,6 @@ lex.yy.c:
 	lex tool/scanner.l
 	mv lex.yy.c src
 
-gv.o:
-	gcc -c src/gv.c -Wall
-	mv gv.o bin
-
 hash.o:
 	gcc -c src/hash.c -Wall
 	mv hash.o bin
@@ -35,4 +31,11 @@ clean:
 	rm -rf bin/*.o
 	rm -rf src/lex.yy.*
 	rm -rf src/y.tab.*
-	rm -rf outpu/*
+	rm -rf output/*
+
+execute:
+	./etapa3 input/input output/output
+	./etapa3 output/output output/output2
+	./etapa3 output/output2 output/output3
+	./etapa3 output/output3 output/output4
+	./etapa3 output/output4 output/output5

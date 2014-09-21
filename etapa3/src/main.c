@@ -3,7 +3,6 @@
 #include "../include/hash.h"
 #include "../include/y.tab.h"
 #include "../include/ast.h"
-#include "../include/gv.h"
 
 extern int isRunning(void);
 
@@ -41,9 +40,7 @@ int main(int argc, char *argv[]) {
         //simb = yylex();
         //if(simb)
         //	printf("LINE: [%d] - TOKEN: [%d] \n", LineNumber, simb);
-        gv_init("output/saida.dot");	
         yyparse();
-        gv_close();
     }
 
     printf("-----------------------------------------");
@@ -57,26 +54,6 @@ int main(int argc, char *argv[]) {
     printf("\n-----------------------------------------\n\n");
 
     fclose(output);
-
-    //input = fopen("output/temp", "r");
-    //output = fopen(argv[2], "w");
-    
-    //int charCurrent; 
-    //int charLast;
-    
-    //charCurrent = 0;    
-    
-    //while (!feof(input)){
-    //     charCurrent = getc(input);
-
-    //    if(!(charLast == 10 && charCurrent == 59))
-    //            fprintf (output, "%c", charCurrent);
-        
-    //    charLast = charCurrent;
-    //}
-
-    //fclose (input);
-    //fclose (output);   
 
     return 0;
 }

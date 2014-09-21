@@ -48,12 +48,12 @@ extern int yydebug;
     SYMBOL_UNDEFINED = 0,
     OPERATOR_AND = 274,
     OPERATOR_OR = 275,
+    KW_THEN = 262,
+    KW_ELSE = 263,
     OPERATOR_LE = 270,
     OPERATOR_GE = 271,
     OPERATOR_EQ = 272,
     OPERATOR_NE = 273,
-    KW_THEN = 262,
-    KW_ELSE = 263,
     KW_WORD = 256,
     KW_BOOL = 258,
     KW_BYTE = 259,
@@ -76,12 +76,12 @@ extern int yydebug;
 #define SYMBOL_UNDEFINED 0
 #define OPERATOR_AND 274
 #define OPERATOR_OR 275
+#define KW_THEN 262
+#define KW_ELSE 263
 #define OPERATOR_LE 270
 #define OPERATOR_GE 271
 #define OPERATOR_EQ 272
 #define OPERATOR_NE 273
-#define KW_THEN 262
-#define KW_ELSE 263
 #define KW_WORD 256
 #define KW_BOOL 258
 #define KW_BYTE 259
@@ -104,7 +104,7 @@ extern int yydebug;
 typedef union YYSTYPE YYSTYPE;
 union YYSTYPE
 {
-#line 21 "tool/parser.y" /* yacc.c:1909  */
+#line 19 "tool/parser.y" /* yacc.c:1909  */
 
 	ast*        ast;
 	HASH_NODE   *symbol;
