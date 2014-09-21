@@ -34,8 +34,8 @@ clean:
 	rm -rf output/*
 
 execute:
-	./etapa3 input/input output/output
-	./etapa3 output/output output/output2
+	./etapa3 input/input output/output1
+	./etapa3 output/output1 output/output2
 	./etapa3 output/output2 output/output3
 	./etapa3 output/output3 output/output4
 	./etapa3 output/output4 output/output5

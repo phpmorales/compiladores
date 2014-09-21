@@ -8,7 +8,7 @@ ETAPAS DO TRABALHO
 - ETAPA 0: ok, disponibilizada no html do inf
 - ETAPA 1: ok, disponibilizada no html do inf
 - ETAPA 2: ok, disponibilizado no html do inf
-- ETAPA 3
+- ETAPA 3: ok, disponibilizado no html do inf
 - ETAPA 4
 - ETAPA 5
 - ETAPA 6
