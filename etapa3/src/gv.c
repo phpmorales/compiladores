@@ -86,10 +86,7 @@ static inline char *__gv_description_from_type(int tipo) {
         case AST_BOOL:          return "BOOL";
         case AST_BYTE:          return "BYTE";
 		case AST_UNDEFINIED:    return "UNIDEFINIED";
-
-        default:
-            fprintf(stderr, "%s: tipo provided is invalid here\n", __FUNCTION__);
-            abort();
+        default:                return "UNIDEFINIED";
     }
     fprintf(stderr, "%s: should not get here: \n", __FUNCTION__);
     abort();
@@ -163,7 +160,6 @@ void gv_declare(const int tipo, const void *pointer, char *name) {
 
     switch (tipo) {
 		case AST_OUT_ARG_STR:
-            //printf("\n %s \n", name);
             description = "AST_OUT_ARG_STR";
             break;
         case AST_FUN_DEF:
@@ -175,12 +171,6 @@ void gv_declare(const int tipo, const void *pointer, char *name) {
 		case AST_PARAM_REF:     
 		case AST_PARAM:  
         case AST_IN:
-            if (!name) {
-                fprintf(stderr, "%s: name should be not NULL: %d \n", __FUNCTION__ , tipo);
-                //abort();
-            }
-            description = name;
-            break;
         case AST_WORD:
         case AST_BOOL:
         case AST_BYTE:
@@ -221,10 +211,11 @@ void gv_declare(const int tipo, const void *pointer, char *name) {
 		case AST_PASS_PARAM:    
 		case AST_UNDEFINIED:    
             if (name){
-                fprintf (stderr, "%s: name should be NULL: %d \n", __FUNCTION__ , tipo);
-                abort();
+                description = name;
             }
-            description = __gv_description_from_type (tipo);
+            else{
+                description = __gv_description_from_type (tipo);            
+            }           
             break;
         default:
             fprintf(stderr, "%s: unknow tipo provided: %d \n", __FUNCTION__ , tipo);
