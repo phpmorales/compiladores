@@ -40,9 +40,10 @@ clean:
 execute:
 	./etapa3 input/input output/output1
 	./etapa3 output/output1 output/output2
-	./etapa3 output/output2 output/output3
-	./etapa3 output/output3 output/output4
-	./etapa3 output/output4 output/output5
+
+compare:
+	diff -a -y output/output1 output/output2 
+	diff -q output/output1 output/output2 
 
 graph:
 	dot output/graph.dot -Tpng -o output/graph.png
