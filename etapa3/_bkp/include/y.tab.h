@@ -106,7 +106,7 @@ union YYSTYPE
 {
 #line 19 "tool/parser.y" /* yacc.c:1909  */
 
-	ast_t*   ast;
+	ast_t*        ast;
 	hash_t   *symbol;
 	
 

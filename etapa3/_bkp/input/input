@@ -7,7 +7,7 @@ word $1pt:0;
 
 word 1incn (word 1x, word 1n)
  return 1x+1n;
-
+  
 word 1outra (word 1x, word 1n) 
   {
   output "Digite um numero: ";

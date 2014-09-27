@@ -12,13 +12,11 @@
   Atenção: não altere este arquivo
 
   Supondo que o arquivo de saída deste módulo encontra-se no arquivo
-  "graph.dot", ele pode ser visualizado da seguinte maneira:
+  "saida.dot", ele pode ser visualizado da seguinte maneira:
 
   1 - instale o pacote graphviz
-  2 - execute o comando "dot graph.dot -Tpng -o saida.png"
-
-**/
-
+  2 - execute o comando "dot saida.dot -Tpng -o saida.png"
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include "../include/ast.h"
@@ -162,10 +160,13 @@ void gv_declare(const int tipo, const void *pointer, char *name) {
     char *description = NULL;
 
     switch (tipo) {
-		case AST_OUT_ARG_STR:
-            //printf("\n %s \n", name);
-            description = "AST_OUT_ARG_STR";
-            break;
+		case AST_OUT_ARG: 
+            if (name){
+                description = name;
+            }
+            else{
+                description = __gv_description_from_type (tipo);
+            }
         case AST_FUN_DEF:
         case AST_FUNC_CALL:
         case AST_NDEC:
@@ -191,7 +192,6 @@ void gv_declare(const int tipo, const void *pointer, char *name) {
         case AST_CMD_ELSE:
 		case AST_CMD_LOOP:
         case AST_OUT:
-		case AST_OUT_ARG:
 		case AST_BLOCK:
         case AST_RETURN:
         case AST_ATRR:

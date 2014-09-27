@@ -20,7 +20,6 @@
 #define		AST_ATRR            	115
 #define		AST_OUT             	116
 #define		AST_OUT_ARG         	117
-#define     AST_OUT_ARG_STR         150
 #define		AST_IF              	118
 #define		AST_CMD_THEN        	119
 #define		AST_CMD_ELSE        	120
@@ -51,24 +50,23 @@
 #define		AST_WORD            	146
 #define		AST_BOOL            	147
 #define		AST_BYTE            	148
-#define		AST_UNDEFINIED         	149
+#define		AST_UNDEFINIED        	149
 
 #define MAX_SONS 4
 
 typedef struct ast_node {
-    int lineNumber;
-    int type;
-    hash_t* symbol;
-    struct ast_node *son[MAX_SONS];
+    int     lineNumber;
+    int     type;
+    hash_t  *symbol;
+    struct  ast_node *son[MAX_SONS];
 } ast_t;
 
-FILE    *input;
+FILE    *inputFile;
 FILE    *outputFile;
 
-ast_t*    astCreate(int type, hash_t *symbol, ast_t *s0,ast_t *s1, ast_t *s2, ast_t *s3);
+ast_t*  astCreate(int type, hash_t *symbol, ast_t *s0,ast_t *s1, ast_t *s2, ast_t *s3);
 void    astPrintNode (ast_t *node);
 void    astPrintTree (ast_t* node, int level);
 void    decompile(ast_t *root);
 
 #endif
-

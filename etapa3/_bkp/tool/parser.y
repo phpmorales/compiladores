@@ -17,7 +17,7 @@ extern int yylex( );
  
 %union
 	{
-	ast_t*   ast;
+	ast_t*        ast;
 	hash_t   *symbol;
 	};
  
@@ -211,7 +211,7 @@ atrr:         expr  '=' expr 								    { $$ = astCreate(AST_ATRR,0,$1,$3,0,0);
 ot:           KW_OUTPUT ot_arg                                  { $$ = astCreate(AST_OUT,0,$2,0,0,0); }
 	          ;
 
-ot_arg:       SYMBOL_LIT_STRING ot_arg_cnt                      { $$ = astCreate(AST_OUT_ARG_STR,$1,0,$2,0,0); }
+ot_arg:       SYMBOL_LIT_STRING ot_arg_cnt                      { $$ = astCreate(AST_OUT_ARG,$1,0,$2,0,0); }
 	          | expr ot_arg_cnt  	                            { $$ = astCreate(AST_OUT_ARG,0,$1,$2,0,0); }
 	          ;
 

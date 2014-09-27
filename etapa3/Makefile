@@ -1,5 +1,5 @@
-etapa3: y.tab.c y.tab.o lex.yy.c lex.yy.o hash.o ast.o 
-	gcc -o etapa3 bin/ast.o bin/hash.o bin/y.tab.o bin/lex.yy.o -Wall
+etapa3: y.tab.c y.tab.o lex.yy.c lex.yy.o hash.o ast.o gv.o
+	gcc -o etapa3 bin/gv.o bin/ast.o bin/hash.o bin/y.tab.o bin/lex.yy.o -Wall
 
 y.tab.o:
 	gcc -c src/y.tab.c -Wall
@@ -26,6 +26,10 @@ ast.o:
 	gcc -c src/ast.c -Wall
 	mv ast.o bin
 
+gv.o:
+	gcc -c src/gv.c -Wall
+	mv gv.o bin
+
 clean:
 	rm -rf etapa3
 	rm -rf bin/*.o
@@ -39,3 +43,7 @@ execute:
 	./etapa3 output/output2 output/output3
 	./etapa3 output/output3 output/output4
 	./etapa3 output/output4 output/output5
+
+graph:
+	dot output/graph.dot -Tpng -o output/graph.png
+	display output/graph.png

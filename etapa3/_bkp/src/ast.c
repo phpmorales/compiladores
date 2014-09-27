@@ -80,7 +80,6 @@ void astPrintNode (ast_t *node)
 		/* I/O */
 		case AST_IN: 			printf("AST_IN");					break;		
 		case AST_OUT_ARG: 		printf("AST_OUT_ARG");				break;
-		case AST_OUT_ARG_STR:   printf("AST_OUT_ARG_STR");			break;
 		case AST_OUT: 			printf("AST_OUT");					break;
 
 		/* EXPRESSION */
@@ -276,7 +275,7 @@ void decompile(ast_t *root)
 				decompile(root->son[1]);					
 				break;	
 			case AST_OUT:		 
-				fprintf(outputFile,"output ");
+				fprintf(outputFile,"outputFile ");
 				decompile(root->son[0]);
 				break;
 			case AST_OUT_ARG:	
@@ -286,15 +285,8 @@ void decompile(ast_t *root)
 					if(root->son[1]!=0)
 				fprintf(outputFile,",");
 				decompile(root->son[1]);				
-				break;		
-			case AST_OUT_ARG_STR:	
-			if(root->symbol !=0)
-				fprintf(outputFile,"%s",root->symbol->text);
-				decompile(root->son[0]);
-					if(root->son[1]!=0)
-				fprintf(outputFile,",");
-				decompile(root->son[1]);				
-				break;			
+				break;					
+			
 			/* EXPRESSION */
 			case AST_PAR_EXPR:	 
 				fprintf(outputFile,"(");
@@ -423,7 +415,6 @@ void decompile(ast_t *root)
 	    }
     }
 }
-
 
 
 

@@ -175,7 +175,7 @@ union YYSTYPE
 {
 #line 19 "tool/parser.y" /* yacc.c:355  */
 
-	ast_t*   ast;
+	ast_t*        ast;
 	hash_t   *symbol;
 	
 
@@ -1679,7 +1679,7 @@ yyreduce:
 
   case 42:
 #line 214 "tool/parser.y" /* yacc.c:1646  */
-    { (yyval.ast) = astCreate(AST_OUT_ARG_STR,(yyvsp[-1].symbol),0,(yyvsp[0].ast),0,0); }
+    { (yyval.ast) = astCreate(AST_OUT_ARG,(yyvsp[-1].symbol),0,(yyvsp[0].ast),0,0); }
 #line 1684 "y.tab.c" /* yacc.c:1646  */
     break;
 
