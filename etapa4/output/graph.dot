@@ -1,0 +1,318 @@
+digraph G {
+node_0x1a0a750 [label="WORD"]
+node_0x1a0a850 [label="INTEGER
+0"]
+node_0x1a0a890 [label="NDEC
+1a"]
+node_0x1a0a890 -> node_0x1a0a750
+node_0x1a0a890 -> node_0x1a0a850
+node_0x1a0a8d0 [label="DEC"]
+node_0x1a0a8d0 -> node_0x1a0a890
+node_0x1a0a910 [label="WORD"]
+node_0x1a0aa10 [label="SYMBOL
+10"]
+node_0x1a0aa50 [label="INTEGER
+0"]
+node_0x1a0aa90 [label="ATRR LIT"]
+node_0x1a0aa90 -> node_0x1a0aa50
+node_0x1a0aad0 [label="INTEGER
+0"]
+node_0x1a0ab10 [label="ATRR LIT"]
+node_0x1a0ab10 -> node_0x1a0aa90
+node_0x1a0ab10 -> node_0x1a0aad0
+node_0x1a0ab50 [label="INTEGER
+0"]
+node_0x1a0ab90 [label="ATRR LIT"]
+node_0x1a0ab90 -> node_0x1a0ab10
+node_0x1a0ab90 -> node_0x1a0ab50
+node_0x1a0abd0 [label="INTEGER
+0"]
+node_0x1a0ac10 [label="ATRR LIT"]
+node_0x1a0ac10 -> node_0x1a0ab90
+node_0x1a0ac10 -> node_0x1a0abd0
+node_0x1a0ac50 [label="INTEGER
+0"]
+node_0x1a0ac90 [label="ATRR LIT"]
+node_0x1a0ac90 -> node_0x1a0ac10
+node_0x1a0ac90 -> node_0x1a0ac50
+node_0x1a0acd0 [label="INTEGER
+0"]
+node_0x1a0ad10 [label="ATRR LIT"]
+node_0x1a0ad10 -> node_0x1a0ac90
+node_0x1a0ad10 -> node_0x1a0acd0
+node_0x1a0ad50 [label="INTEGER
+0"]
+node_0x1a0ad90 [label="ATRR LIT"]
+node_0x1a0ad90 -> node_0x1a0ad10
+node_0x1a0ad90 -> node_0x1a0ad50
+node_0x1a0add0 [label="INTEGER
+0"]
+node_0x1a0ae10 [label="ATRR LIT"]
+node_0x1a0ae10 -> node_0x1a0ad90
+node_0x1a0ae10 -> node_0x1a0add0
+node_0x1a0ae50 [label="INTEGER
+0"]
+node_0x1a0ae90 [label="ATRR LIT"]
+node_0x1a0ae90 -> node_0x1a0ae10
+node_0x1a0ae90 -> node_0x1a0ae50
+node_0x1a0aed0 [label="INTEGER
+0"]
+node_0x1a0af10 [label="ATRR LIT"]
+node_0x1a0af10 -> node_0x1a0ae90
+node_0x1a0af10 -> node_0x1a0aed0
+node_0x1a0af50 [label="ARRAY_DEC
+1v"]
+node_0x1a0af50 -> node_0x1a0a910
+node_0x1a0af50 -> node_0x1a0aa10
+node_0x1a0af50 -> node_0x1a0af10
+node_0x1a0af90 [label="DEC"]
+node_0x1a0af90 -> node_0x1a0a8d0
+node_0x1a0af90 -> node_0x1a0af50
+node_0x1a0afd0 [label="WORD"]
+node_0x1a0b0d0 [label="SYMBOL
+1000"]
+node_0x1a0b110 [label="ARRAY_DEC
+1mat"]
+node_0x1a0b110 -> node_0x1a0afd0
+node_0x1a0b110 -> node_0x1a0b0d0
+node_0x1a0b150 [label="DEC"]
+node_0x1a0b150 -> node_0x1a0af90
+node_0x1a0b150 -> node_0x1a0b110
+node_0x1a0b190 [label="WORD"]
+node_0x1a0b230 [label="INTEGER
+0"]
+node_0x1a0b270 [label="POINTER_DEC
+1pt"]
+node_0x1a0b270 -> node_0x1a0b190
+node_0x1a0b270 -> node_0x1a0b230
+node_0x1a0b2b0 [label="DEC"]
+node_0x1a0b2b0 -> node_0x1a0b150
+node_0x1a0b2b0 -> node_0x1a0b270
+node_0x1a0b2f0 [label="WORD"]
+node_0x1a0b390 [label="WORD"]
+node_0x1a0b430 [label="WORD"]
+node_0x1a0b4d0 [label="PARAM
+1n"]
+node_0x1a0b4d0 -> node_0x1a0b430
+node_0x1a0b510 [label="PARAM
+1x"]
+node_0x1a0b510 -> node_0x1a0b390
+node_0x1a0b510 -> node_0x1a0b4d0
+node_0x1a0b550 [label="SYMBOL
+1x"]
+node_0x1a0b590 [label="SYMBOL
+1n"]
+node_0x1a0b5d0 [label="+"]
+node_0x1a0b5d0 -> node_0x1a0b550
+node_0x1a0b5d0 -> node_0x1a0b590
+node_0x1a0b610 [label="RETURN"]
+node_0x1a0b610 -> node_0x1a0b5d0
+node_0x1a0b650 [label="AST_FUN_DEF
+1incn"]
+node_0x1a0b650 -> node_0x1a0b2f0
+node_0x1a0b650 -> node_0x1a0b510
+node_0x1a0b650 -> node_0x1a0b610
+node_0x1a0b690 [label="DECL"]
+node_0x1a0b690 -> node_0x1a0b2b0
+node_0x1a0b690 -> node_0x1a0b650
+node_0x1a0b6d0 [label="PROGRAM"]
+node_0x1a0b6d0 -> node_0x1a0b690
+node_0x1a0b710 [label="WORD"]
+node_0x1a0b7b0 [label="WORD"]
+node_0x1a0b850 [label="WORD"]
+node_0x1a0b8f0 [label="PARAM
+2n"]
+node_0x1a0b8f0 -> node_0x1a0b850
+node_0x1a0b930 [label="PARAM
+2x"]
+node_0x1a0b930 -> node_0x1a0b7b0
+node_0x1a0b930 -> node_0x1a0b8f0
+node_0x1a0b9d0 [label="AST_OUT_ARG_STR"]
+node_0x1a0ba10 [label="OUTPUT"]
+node_0x1a0ba10 -> node_0x1a0b9d0
+node_0x1a0ba50 [label="SYMBOL
+1x"]
+node_0x1a0ba90 [label="POINTER
+1n"]
+node_0x1a0bad0 [label="<"]
+node_0x1a0bad0 -> node_0x1a0ba50
+node_0x1a0bad0 -> node_0x1a0ba90
+node_0x1a0bb10 [label="THEN"]
+node_0x1a0bb50 [label="SYMBOL
+1x"]
+node_0x1a0bb90 [label="SYMBOL
+1n"]
+node_0x1a0bbd0 [label="+"]
+node_0x1a0bbd0 -> node_0x1a0bb50
+node_0x1a0bbd0 -> node_0x1a0bb90
+node_0x1a0bc10 [label="RETURN"]
+node_0x1a0bc10 -> node_0x1a0bbd0
+node_0x1a0bc50 [label="CMD LIST"]
+node_0x1a0bc90 [label="CMD LIST"]
+node_0x1a0bc90 -> node_0x1a0bc10
+node_0x1a0bc90 -> node_0x1a0bc50
+node_0x1a0bcd0 [label="BLOCK"]
+node_0x1a0bcd0 -> node_0x1a0bc90
+node_0x1a0bd10 [label="IF"]
+node_0x1a0bd10 -> node_0x1a0bad0
+node_0x1a0bd10 -> node_0x1a0bb10
+node_0x1a0bd10 -> node_0x1a0bcd0
+node_0x1a0bd50 [label="SYMBOL
+1x"]
+node_0x1a0bd90 [label="SYMBOL
+1n"]
+node_0x1a0bdd0 [label="<"]
+node_0x1a0bdd0 -> node_0x1a0bd50
+node_0x1a0bdd0 -> node_0x1a0bd90
+node_0x1a0be10 [label="ELSE"]
+node_0x1a0be50 [label="SYMBOL
+1x"]
+node_0x1a0be90 [label="RETURN"]
+node_0x1a0be90 -> node_0x1a0be50
+node_0x1a0bed0 [label="IF"]
+node_0x1a0bed0 -> node_0x1a0bdd0
+node_0x1a0bed0 -> node_0x1a0be10
+node_0x1a0bed0 -> node_0x1a0be90
+node_0x1a0bf80 [label="SYMBOL
+1a"]
+node_0x1a0c020 [label="AST_OUT_ARG_STR"]
+node_0x1a0c060 [label="OUT ARG"]
+node_0x1a0c060 -> node_0x1a0c020
+node_0x1a0c0a0 [label="OUT ARG"]
+node_0x1a0c0a0 -> node_0x1a0bf80
+node_0x1a0c0a0 -> node_0x1a0c060
+node_0x1a0c0e0 [label="OUT ARG"]
+node_0x1a0c0e0 -> node_0x1a0c0a0
+node_0x1a0c120 [label="AST_OUT_ARG_STR"]
+node_0x1a0c120 -> node_0x1a0c0e0
+node_0x1a0c160 [label="OUTPUT"]
+node_0x1a0c160 -> node_0x1a0c120
+node_0x1a0c1a0 [label="CMD LIST"]
+node_0x1a0c1e0 [label="CMD LIST"]
+node_0x1a0c1e0 -> node_0x1a0c160
+node_0x1a0c1e0 -> node_0x1a0c1a0
+node_0x1a0c220 [label="CMD LIST"]
+node_0x1a0c220 -> node_0x1a0c1e0
+node_0x1a0c260 [label="CMD LIST"]
+node_0x1a0c260 -> node_0x1a0bed0
+node_0x1a0c260 -> node_0x1a0c220
+node_0x1a0c2a0 [label="CMD LIST"]
+node_0x1a0c2a0 -> node_0x1a0c260
+node_0x1a0c2e0 [label="CMD LIST"]
+node_0x1a0c2e0 -> node_0x1a0bd10
+node_0x1a0c2e0 -> node_0x1a0c2a0
+node_0x1a0c320 [label="CMD LIST"]
+node_0x1a0c320 -> node_0x1a0c2e0
+node_0x1a0c360 [label="CMD LIST"]
+node_0x1a0c360 -> node_0x1a0ba10
+node_0x1a0c360 -> node_0x1a0c320
+node_0x1a0c3a0 [label="BLOCK"]
+node_0x1a0c3a0 -> node_0x1a0c360
+node_0x1a0c3e0 [label="AST_FUN_DEF
+1outra"]
+node_0x1a0c3e0 -> node_0x1a0b710
+node_0x1a0c3e0 -> node_0x1a0b930
+node_0x1a0c3e0 -> node_0x1a0c3a0
+node_0x1a0c420 [label="DECL"]
+node_0x1a0c420 -> node_0x1a0c3e0
+node_0x1a0c460 [label="PROGRAM"]
+node_0x1a0c460 -> node_0x1a0b6d0
+node_0x1a0c460 -> node_0x1a0c420
+node_0x1a0c4a0 [label="WORD"]
+node_0x1a0c540 [label="BLOCK"]
+node_0x1a0c580 [label="AST_FUN_DEF
+1maisuma"]
+node_0x1a0c580 -> node_0x1a0c4a0
+node_0x1a0c580 -> node_0x1a0c540
+node_0x1a0c5c0 [label="DECL"]
+node_0x1a0c5c0 -> node_0x1a0c580
+node_0x1a0c600 [label="PROGRAM"]
+node_0x1a0c600 -> node_0x1a0c460
+node_0x1a0c600 -> node_0x1a0c5c0
+node_0x1a0c640 [label="WORD"]
+node_0x1a0c740 [label="SYMBOL
+1i"]
+node_0x1a0c780 [label="SYMBOL
+10"]
+node_0x1a0c7c0 [label="<"]
+node_0x1a0c7c0 -> node_0x1a0c740
+node_0x1a0c7c0 -> node_0x1a0c780
+node_0x1a0c800 [label="LOOP"]
+node_0x1a0c840 [label="SYMBOL
+1a"]
+node_0x1a0c880 [label="SYMBOL
+1a"]
+node_0x1a0c920 [label="SYMBOL
+1"]
+node_0x1a0c960 [label="PASS PARAM"]
+node_0x1a0c960 -> node_0x1a0c920
+node_0x1a0c9a0 [label="PASS PARAM"]
+node_0x1a0c9a0 -> node_0x1a0c960
+node_0x1a0c9e0 [label="PASS PARAM"]
+node_0x1a0c9e0 -> node_0x1a0c880
+node_0x1a0c9e0 -> node_0x1a0c9a0
+node_0x1a0ca20 [label="FUNC CALL
+1incn"]
+node_0x1a0ca20 -> node_0x1a0c9e0
+node_0x1a0ca60 [label="="]
+node_0x1a0ca60 -> node_0x1a0c840
+node_0x1a0ca60 -> node_0x1a0ca20
+node_0x1a0caa0 [label="SYMBOL
+1i"]
+node_0x1a0cae0 [label="SYMBOL
+1i"]
+node_0x1a0cb20 [label="SYMBOL
+1"]
+node_0x1a0cb60 [label="+"]
+node_0x1a0cb60 -> node_0x1a0cae0
+node_0x1a0cb60 -> node_0x1a0cb20
+node_0x1a0cba0 [label="="]
+node_0x1a0cba0 -> node_0x1a0caa0
+node_0x1a0cba0 -> node_0x1a0cb60
+node_0x1a0cbe0 [label="CMD LIST"]
+node_0x1a0cc20 [label="CMD LIST"]
+node_0x1a0cc20 -> node_0x1a0cba0
+node_0x1a0cc20 -> node_0x1a0cbe0
+node_0x1a0cc60 [label="CMD LIST"]
+node_0x1a0cc60 -> node_0x1a0cc20
+node_0x1a0cca0 [label="CMD LIST"]
+node_0x1a0cca0 -> node_0x1a0ca60
+node_0x1a0cca0 -> node_0x1a0cc60
+node_0x1a0cce0 [label="BLOCK"]
+node_0x1a0cce0 -> node_0x1a0cca0
+node_0x1a0cd20 [label="IF"]
+node_0x1a0cd20 -> node_0x1a0c7c0
+node_0x1a0cd20 -> node_0x1a0c800
+node_0x1a0cd20 -> node_0x1a0cce0
+node_0x1a0cd60 [label="CMD LIST"]
+node_0x1a0cda0 [label="CMD LIST"]
+node_0x1a0cda0 -> node_0x1a0cd20
+node_0x1a0cda0 -> node_0x1a0cd60
+node_0x1a0cde0 [label="BLOCK"]
+node_0x1a0cde0 -> node_0x1a0cda0
+node_0x1a0ce20 [label="AST_FUN_DEF
+1main"]
+node_0x1a0ce20 -> node_0x1a0c640
+node_0x1a0ce20 -> node_0x1a0cde0
+node_0x1a0ce60 [label="DECL"]
+node_0x1a0ce60 -> node_0x1a0ce20
+node_0x1a0cea0 [label="PROGRAM"]
+node_0x1a0cea0 -> node_0x1a0c600
+node_0x1a0cea0 -> node_0x1a0ce60
+node_0x1a0cee0 [label="WORD"]
+node_0x1a0cf80 [label="INTEGER
+0"]
+node_0x1a0cfc0 [label="NDEC
+1b"]
+node_0x1a0cfc0 -> node_0x1a0cee0
+node_0x1a0cfc0 -> node_0x1a0cf80
+node_0x1a0d000 [label="DEC"]
+node_0x1a0d000 -> node_0x1a0cfc0
+node_0x1a0d040 [label="DECL"]
+node_0x1a0d040 -> node_0x1a0d000
+node_0x1a0d080 [label="PROGRAM"]
+node_0x1a0d080 -> node_0x1a0cea0
+node_0x1a0d080 -> node_0x1a0d040
+node_0x1a0d0c0 [label="START"]
+node_0x1a0d0c0 -> node_0x1a0d080
+}

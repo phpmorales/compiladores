@@ -1,8 +1,21 @@
+/*
+ *
+ * Author: Miller Biazus
+ *		   Pedro Henrique Pinto Morales
+ * UFRGS - Instituto de Informática
+ * Etapa 4 - Compiladores - Prof. Marcelo de Oliveira Johann
+ * 2014/2
+ *
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
+#include "../include/gv.h"           
+#include "../include/ast.h"
 #include "../include/hash.h"
 #include "../include/y.tab.h"
-#include "../include/ast.h"
 
 extern int isRunning(void);
 
@@ -30,30 +43,43 @@ int main(int argc, char *argv[]) {
     printf("\n-----------------------------------------\n");
 
     printf("\n-----------------------------------------");
-    printf("\nSTARTING PART 3");
+    printf("\nSTARTING PART 4");
     printf("\nPLEASE WAIT, MAKING THE PARSER...");
     printf("\n-----------------------------------------\n");
 
-    output = fopen(argv[2], "w");
+    outputFile = fopen(argv[2], "w");
+
+    gv_init("output/graph.dot");	
 
     while (isRunning()) {
+        //Suprimido da etapa 1
         //simb = yylex();
         //if(simb)
         //	printf("LINE: [%d] - TOKEN: [%d] \n", LineNumber, simb);
         yyparse();
     }
 
-    printf("-----------------------------------------");
-    printf("\nTHE FILE WAS READ SUCCESSFULLY:");
-    printf("\n-----------------------------------------\n");
+    gv_close();	
 
-    hashPrint(&hashTable);
+    //printf("-----------------------------------------");
+    //printf("\nTHE FILE WAS READ SUCCESSFULLY:");
+    //printf("\n-----------------------------------------\n");
+
+    //hashPrint(&hashTable);
+
+	/* Semantic Warnings */
+	if (semanticFlag > 0){
+		printf("\nSome semantic error occured!\n");
+		printf("There are/is %d semantic error/s!\n", semanticFlag);
+		exit(4);	//existence of semantic errors signaled
+	}
+
+    fclose(outputFile);
+
 
     printf("\n-----------------------------------------");
-    printf("\nPART 3 DONE!");
+    printf("\nPART 4 DONE!");
     printf("\n-----------------------------------------\n\n");
-
-    fclose(output);
 
     return 0;
 }

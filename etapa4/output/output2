@@ -4,10 +4,10 @@ word 1mat[1000];
 word $1pt:0;
 word 1incn (word 1x,word 1n)
 return 1x + 1n;
-word 1outra (word 1x,word 1n)
+word 1outra (word 2x,word 2n)
 {
 output "Digite um numero: ";
-if (1x < 1n) then {
+if (1x < $1n) then {
 return 1x + 1n;
 };
 if (1x < 1n) else return 1x;
@@ -23,5 +23,5 @@ if (1i < 10) loop {
 1i = 1i + 1;
 };
 };
-word 1a:0;
+word 1b:0;
 ;

@@ -1,13 +1,26 @@
+/*
+ *
+ * Author: Miller Biazus
+ *		   Pedro Henrique Pinto Morales
+ * UFRGS - Instituto de Informática
+ * Etapa 4 - Compiladores - Prof. Marcelo de Oliveira Johann
+ * 2014/2
+ *
+ */
+
 %{
 #include <stdio.h>
 #include <stdlib.h>
-           
-#include "../include/hash.h"
+
+#include "../include/gv.h"      
+#include "../include/semantic.h"           
 #include "../include/ast.h"
+#include "../include/hash.h"
 
 //#define YYDEBUG 1
 int yyerror( char* str );
-ast *ast_t;
+ast_t *ast;
+ast_t *root;
 
 extern int getLineNumber( void );
 extern int isRunning( void );
@@ -17,8 +30,8 @@ extern int yylex( );
  
 %union
 	{
-	ast*        ast;
-	HASH_NODE   *symbol;
+	ast_t*   ast;
+	hash_t   *symbol;
 	};
  
 %right	    '='
@@ -57,14 +70,14 @@ extern int yylex( );
  
 %token      TOKEN_ERROR	    290
 
-%token      <symbol>        SYMBOL_UNDEFINED		0
-%token      <symbol>        SYMBOL_LIT_INTEGER	    1
-%token      <symbol>        SYMBOL_LIT_FLOATING	    2
-%token      <symbol>        SYMBOL_LIT_TRUE		    3
-%token      <symbol>        SYMBOL_LIT_FALSE		4
-%token      <symbol>        SYMBOL_LIT_CHAR		    5
-%token      <symbol>        SYMBOL_LIT_STRING	    6
-%token      <symbol>        SYMBOL_IDENTIFIER	    7  
+%token      <symbol>        UNDEFINED		0
+%token      <symbol>        LIT_INTEGER	    1
+%token      <symbol>        LIT_FLOATING	2
+%token      <symbol>        LIT_TRUE		3
+%token      <symbol>        LIT_FALSE		4
+%token      <symbol>        LIT_CHAR		5
+%token      <symbol>        LIT_STRING	    6
+%token      <symbol>        IDENTIFIER	    7  
 
 %type       <ast>           prg_ini
 %type       <ast>           prg
@@ -108,21 +121,25 @@ extern int yylex( );
 
 prg_ini:      prg                                               {
                                                                   $$ = astCreate(AST_PROGRAM_INI,0,$1,0,0,0);
-                                                                  printf("-----------------------------------------");
-                                                                  printf("\nCREATING THE AST:");
-                                                                  printf("\n-----------------------------------------\n");
-                                                                  astPrintTree ($$,0);
-                                                                  printf("-----------------------------------------");
-                                                                  printf("\nTHE AST WAS BUILD SUCCESSFULLY:");
-                                                                  printf("\n-----------------------------------------\n");
-                                                                  printf("-----------------------------------------");
-                                                                  printf("\nREADING AST AND GENERATING A CODE FILE:");
-                                                                  printf("\n-----------------------------------------\n");
-                                                                  decompile($$);
-                                                                  printf("-----------------------------------------");
-                                                                  printf("\nTHE CODE WAS GENERATED SUCCESSFULLY:");
-                                                                  printf("\n-----------------------------------------\n");
-                                                             
+                                                                  root = $$;  
+
+                                                                  printf("\nCreating the AST...");
+                                                                  //astPrintTree(root,0);
+                                                                  printf("\nOk. AST was built!\n");
+
+                                                                  printf("\nGenerating the copy of code...");
+                                                                  decompile(root);
+                                                                  printf("\nOk. Code generated!\n");
+
+                                                                  printf("\nSearching for semantic erros...");
+                                                                  semanticDeclaration(root);
+                                                                  //semanticUtilization(root);
+                                                                  printf("\nOk. No semantic errors found!\n");
+
+                                                                  printf("\nGenerating the TAC: three address code...");
+                                                                  //tacPrintList(tac_reverse(generateCode(root)));
+                                                                  printf("\nOk. TAC generated!\n");
+                                
                                                                 }
               ;
 
@@ -146,13 +163,22 @@ decl_cnt:     ';'                                               { $$ = 0; }
               |                                                 { $$ = 0; } 
               ;
                       
-dcl_std:      dt_tp SYMBOL_IDENTIFIER ':' vl	                { $$ = astCreate(AST_NDEC,$2,$1,$4,0,0); }
+dcl_std:      dt_tp IDENTIFIER ':' vl	                        { 
+                                                                  $$ = astCreate(AST_NDEC,$2,$1,$4,0,0); 
+                                                                  $2->dataType = setDataType($1->type);
+                                                                }
 	          ;                                             
                                                             
-dcl_ptr:      dt_tp '$' SYMBOL_IDENTIFIER ':' vl	            { $$ = astCreate(AST_POINTER_DEC,$3,$1,$5,0,0); }
+dcl_ptr:      dt_tp '$' IDENTIFIER ':' vl	                    { 
+                                                                  $$ = astCreate(AST_POINTER_DEC,$3,$1,$5,0,0); 
+                                                                  $3->dataType = setDataType($1->type);
+                                                                }
 	          ;
 
-dcl_arr:      dt_tp SYMBOL_IDENTIFIER '['expr']' atrr_dcl_arr   { $$ = astCreate(AST_ARRAY_DEC,$2,$1,$4,$6,0); }
+dcl_arr:      dt_tp IDENTIFIER '['expr']' atrr_dcl_arr          { 
+                                                                  $$ = astCreate(AST_ARRAY_DEC,$2,$1,$4,$6,0);  
+                                                                  $2->dataType = setDataType($1->type);
+                                                                }
 	          ;
 
  
@@ -165,7 +191,10 @@ vr_lt:        vl				                                { $$ = astCreate(AST_ATRR_LI
 	          ;
 
 
-dcl_fn:    	  dt_tp SYMBOL_IDENTIFIER '(' dcl_t_fn ')' cmd      { $$ = astCreate(AST_FUN_DEF,$2,$1,$4,$6,0); }
+dcl_fn:    	  dt_tp IDENTIFIER '(' dcl_t_fn ')' cmd             { 
+                                                                  $$ = astCreate(AST_FUN_DEF,$2,$1,$4,$6,0); 
+                                                                  $2->dataType = setDataType($1->type);
+                                                                }
 	          |  						                        { $$ = 0; }
 	          ;
 
@@ -173,8 +202,14 @@ dcl_t_fn:     prm_lst                                           { $$ = $1; }
 	          |				                                    { $$ = 0; }
 	          ;
 
-prm_lst:      dt_tp '$' SYMBOL_IDENTIFIER prm_lst_cnt	        { $$ = astCreate(AST_PARAM_REF,$3,$1,$4,0,0); }
-	          | dt_tp SYMBOL_IDENTIFIER prm_lst_cnt	            { $$ = astCreate(AST_PARAM,$2,$1,$3,0,0); }
+prm_lst:      dt_tp IDENTIFIER prm_lst_cnt	                    { 
+                                                                  $$ = astCreate(AST_PARAM,$2,$1,$3,0,0); 
+                                                                  $2->dataType = setDataType($1->type);
+                                                                }
+	          | dt_tp '$' IDENTIFIER prm_lst_cnt	            { 
+                                                                  $$ = astCreate(AST_PARAM_REF,$3,$1,$4,0,0); 
+                                                                  $3->dataType = setDataType($1->type);
+                                                                }
 	          ;
 
 prm_lst_cnt:  ',' prm_lst 			                            { $$ = $2; }
@@ -200,7 +235,7 @@ cmd:          in     				                            { $$ = $1; }
 cmd_cnt:      ';' cmd_lst			                            { $$ = astCreate(AST_CMD_LIST,0,$2,0,0,0); }
 	          ;
 
-in:           KW_INPUT SYMBOL_IDENTIFIER arr	                { $$ = astCreate(AST_IN,$2,0,$3,0,0); }
+in:           KW_INPUT IDENTIFIER arr	                        { $$ = astCreate(AST_IN,$2,0,$3,0,0); }
 	          |				                                    { $$ = 0; }
 	          ;
 
@@ -211,7 +246,7 @@ atrr:         expr  '=' expr 								    { $$ = astCreate(AST_ATRR,0,$1,$3,0,0);
 ot:           KW_OUTPUT ot_arg                                  { $$ = astCreate(AST_OUT,0,$2,0,0,0); }
 	          ;
 
-ot_arg:       SYMBOL_LIT_STRING ot_arg_cnt                      { $$ = astCreate(AST_OUT_ARG,$1,0,$2,0,0); }
+ot_arg:       LIT_STRING ot_arg_cnt                             { $$ = astCreate(AST_OUT_ARG_STR,$1,0,$2,0,0); }
 	          | expr ot_arg_cnt  	                            { $$ = astCreate(AST_OUT_ARG,0,$1,$2,0,0); }
 	          ;
 
@@ -235,15 +270,15 @@ arr:          '['expr']'			                            { $$ = astCreate(AST_INDE
 	          |				                                    { $$ = 0; }
 	          ;
 
-expr:         SYMBOL_IDENTIFIER arr		                        { $$ = astCreate(AST_SYMBOL,$1,$2,0,0,0); }
-	          | '&' SYMBOL_IDENTIFIER		                    { $$ = astCreate(AST_POINTER_ADDR,$2,0,0,0,0); }
-	          | '$' SYMBOL_IDENTIFIER		                    { $$ = astCreate(AST_POINTER,$2,0,0,0,0); }
-	          | SYMBOL_LIT_INTEGER			                    { $$ = astCreate(AST_SYMBOL,$1,0,0,0,0); }
-	          | SYMBOL_LIT_TRUE			                        { $$ = astCreate(AST_SYMBOL,$1,0,0,0,0); }
-	          | SYMBOL_LIT_FALSE			                    { $$ = astCreate(AST_SYMBOL,$1,0,0,0,0); }
-	          | SYMBOL_LIT_CHAR			                        { $$ = astCreate(AST_SYMBOL,$1,0,0,0,0); }
-	          | SYMBOL_LIT_STRING			                    { $$ = astCreate(AST_SYMBOL,$1,0,0,0,0); }
-	          | SYMBOL_IDENTIFIER '(' lst_vl ')'                { $$ = astCreate(AST_FUNC_CALL,$1,$3,0,0,0); }
+expr:         IDENTIFIER arr		                            { $$ = astCreate(AST_SYMBOL,$1,$2,0,0,0); }
+	          | '&' IDENTIFIER		                            { $$ = astCreate(AST_POINTER_ADDR,$2,0,0,0,0); }
+	          | '$' IDENTIFIER		                            { $$ = astCreate(AST_POINTER,$2,0,0,0,0); }
+	          | LIT_INTEGER			                            { $$ = astCreate(AST_SYMBOL,$1,0,0,0,0); }
+	          | LIT_TRUE			                            { $$ = astCreate(AST_SYMBOL,$1,0,0,0,0); }
+	          | LIT_FALSE			                            { $$ = astCreate(AST_SYMBOL,$1,0,0,0,0); }
+	          | LIT_CHAR			                            { $$ = astCreate(AST_SYMBOL,$1,0,0,0,0); }
+	          | LIT_STRING			                            { $$ = astCreate(AST_SYMBOL,$1,0,0,0,0); }
+	          | IDENTIFIER '(' lst_vl ')'                       { $$ = astCreate(AST_FUNC_CALL,$1,$3,0,0,0); }
 	          | inv '(' expr ')'		                        { $$ = astCreate(AST_INV_EXPR,0,$1,$3,0,0); }
 	          | '(' expr ')'   		                            { $$ = astCreate(AST_PAR_EXPR,0,0,$2,0,0); }
 	          | expr '+' expr			                        { $$ = astCreate(AST_ADD,0,$1,$3,0,0); }			
@@ -275,11 +310,24 @@ prms:         ',' prm			                                { $$ = astCreate(AST_PAS
 	          |				                                    { $$ = 0; }
 	          ;
 
-vl:           SYMBOL_LIT_INTEGER		                        { $$ = astCreate(AST_SYMBOL,$1,0,0,0,0); }            
-              | SYMBOL_LIT_TRUE		                            { $$ = astCreate(AST_SYMBOL,$1,0,0,0,0); }
-	          | SYMBOL_LIT_FALSE		                        { $$ = astCreate(AST_SYMBOL,$1,0,0,0,0); }
-              | SYMBOL_LIT_CHAR		                            { $$ = astCreate(AST_SYMBOL,$1,0,0,0,0); }	
-              | SYMBOL_LIT_STRING	                            { $$ = astCreate(AST_SYMBOL,$1,0,0,0,0); }	
+vl:           LIT_INTEGER		                                { 
+                                                                  $$ = astCreate(AST_LIT_INTEGER,$1,0,0,0,0); 
+                                                                  $1->dataType = DATATYPE_BYTE;
+                                                                }            
+              | LIT_TRUE		                                { 
+                                                                  $$ = astCreate(AST_LIT_TRUE,$1,0,0,0,0);
+                                                                  $1->dataType = DATATYPE_BOOL;
+                                                                }
+	          | LIT_FALSE		                                { 
+                                                                  $$ = astCreate(AST_LIT_FALSE,$1,0,0,0,0); 
+                                                                  $1->dataType = DATATYPE_BOOL;}
+              | LIT_CHAR		                                { 
+                                                                  $$ = astCreate(AST_LIT_CHAR,$1,0,0,0,0); 
+                                                                  $1->dataType = DATATYPE_WORD;}	
+              | LIT_STRING	                                    { 
+                                                                  $$ = astCreate(AST_LIT_STRING,$1,0,0,0,0); 
+                                                                  $1->dataType = DATATYPE_WORD;
+                                                                }	
 	          ;
 
 dt_tp:        KW_WORD				                            { $$ = astCreate(AST_WORD,0,0,0,0,0); }	
@@ -300,3 +348,4 @@ int yyerror(char* str)
 	//exit(3);
  
 }
+

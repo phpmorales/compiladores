@@ -1,26 +1,80 @@
+/*
+ *
+ * Author: Miller Biazus
+ *		   Pedro Henrique Pinto Morales
+ * UFRGS - Instituto de Informática
+ * Etapa 4 - Compiladores - Prof. Marcelo de Oliveira Johann
+ * 2014/2
+ *
+ */
+
+/*
+ *
+ * ast.c
+ * 
+ * As funções deste arquivo, se corretamente utilizadas, permitem a
+ * geração de uma árvore sintática abstrata. 
+ * As funções implementadas aqui permitem realizar as seguintes operações:
+ * 1. Criar cada sub-árvore e conecta cada nodo aos seus nodos filhos.
+ * 2. Imprimir a árvore criada.
+ * 3. Imprimir um determinado nodo.
+ * 4. Descompilar a árvore gerando o código fonte
+ *
+ */
+
 #include<stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "../include/gv.h"
 #include "../include/ast.h"
 #include "../include/hash.h"
+#include "../include/y.tab.h"
 
 extern  int     getLineNumber(void);
-extern  FILE    *output;
+extern  FILE    *outputFile;
 
-ast* astCreate(int type, HASH_NODE *symbol, ast *s0,ast *s1, ast *s2, ast *s3)
+/***************************************
+ * Function: astCreate
+ * Description:
+ * Input:
+ * Output:
+ ***************************************/
+ast_t* astCreate(int type, hash_t *symbol, ast_t *s0,ast_t *s1, ast_t *s2, ast_t *s3)
 {
-	ast *newnode;
-	newnode = (ast*) calloc(1,sizeof(ast));
-	newnode->type = type;
-	newnode->symbol = symbol;
-	newnode->son[0]= s0;
-	newnode->son[1]= s1;
-	newnode->son[2]= s2;
-	newnode->son[3]= s3;
-	return newnode;
-};
+	ast_t *newNode;
+	newNode = (ast_t*) calloc(1,sizeof(ast_t));
+	newNode->type = type;
+	newNode->symbol = symbol;
+	newNode->son[0]= s0;
+	newNode->son[1]= s1;
+	newNode->son[2]= s2;
+	newNode->son[3]= s3;
+	newNode->printFlag = 0;
+	newNode->lineNumber = getLineNumber();
 
-void astPrintNode (ast *node)
+    if (symbol) {
+        gv_declare(type,newNode,symbol->text);
+    }
+    else {
+      	gv_declare(type,newNode,NULL);
+    }
+
+    if(newNode->son[0] !=NULL) gv_connect(newNode,newNode->son[0]);
+    if(newNode->son[1] !=NULL) gv_connect(newNode,newNode->son[1]);
+    if(newNode->son[2] !=NULL) gv_connect(newNode,newNode->son[2]);
+    if(newNode->son[3] !=NULL) gv_connect(newNode,newNode->son[3]);
+
+	return newNode;
+}
+
+/***************************************
+ * Function: astPrintNode
+ * Description:
+ * Input:
+ * Output:
+ ***************************************/
+void astPrintNode(ast_t *node)
 {
 	if(node==0) 
         return;
@@ -43,8 +97,15 @@ void astPrintNode (ast *node)
 		case AST_WORD: 			printf("AST_WORD");					break;
 		case AST_BYTE: 			printf("AST_BYTE");					break;
 		
-		/* ARIM OPERATIONS */
+        /* LITERALS */
 		case AST_SYMBOL:    	printf("AST_SYMBOL"); 				break;
+        case AST_LIT_INTEGER:   printf("AST_LIT_INTEGER"); 			break;        
+        case AST_LIT_TRUE:      printf("AST_LIT_TRUE"); 				break;        
+        case AST_LIT_FALSE:     printf("AST_LIT_FALSE"); 			break;        
+        case AST_LIT_CHAR:      printf("AST_LIT_CHAR"); 				break;        
+        case AST_LIT_STRING:    printf("AST_LIT_STRING"); 			break; 
+
+		/* ARIM OPERATIONS */       
 		case AST_ADD:       	printf("AST_ADD");    				break;
 		case AST_SUB:       	printf("AST_SUB");     				break;
 		case AST_MUL: 			printf("AST_MUL");					break;
@@ -66,6 +127,7 @@ void astPrintNode (ast *node)
 		/* I/O */
 		case AST_IN: 			printf("AST_IN");					break;		
 		case AST_OUT_ARG: 		printf("AST_OUT_ARG");				break;
+		case AST_OUT_ARG_STR:   printf("AST_OUT_ARG_STR");			break;
 		case AST_OUT: 			printf("AST_OUT");					break;
 
 		/* EXPRESSION */
@@ -113,7 +175,13 @@ void astPrintNode (ast *node)
 
 }
 
-void astPrintTree (ast* node, int level)
+/***************************************
+ * Function: astPrintTree
+ * Description:
+ * Input:
+ * Output:
+ ***************************************/
+void astPrintTree(ast_t* node, int level)
 {
 	int i = 0;
 	int j = 0;
@@ -128,13 +196,19 @@ void astPrintTree (ast* node, int level)
 
 	astPrintNode(node);
 
-	for (i = 0; i < MAX_SONS; ++i)
+	for (i = 0; i < AST_SONS; ++i)
 		if(node->son[i]) 
             astPrintTree(node->son[i], level + 1);
 
 }
 
-void decompile(ast *root)
+/***************************************
+ * Function: decompile
+ * Description:
+ * Input:
+ * Output:
+ ***************************************/
+void decompile(ast_t *root)
 {	
 	if (root !=0)
 	{
@@ -153,244 +227,258 @@ void decompile(ast *root)
 			/* COMMANDS */	
 			case AST_CMD_LIST:	decompile(root->son[0]);
 				if(root->son[1]!=0)
-					fprintf(output,";\n");
+					fprintf(outputFile,";\n");
 				decompile(root->son[1]);					
 				break;				
 			
 			/* BLOCK */
 			case AST_BLOCK:		
-				fprintf(output,"{\n");
+				fprintf(outputFile,"{\n");
 				decompile(root->son[0]);
-				fprintf(output,"}");									
+				fprintf(outputFile,"}");									
 				break;				
 			
 			/* DATA TYPE */
 			case AST_WORD: 	 
-				fprintf(output,"word "); 
+				fprintf(outputFile,"word "); 
 				break;
 			case AST_BYTE:		 
-				fprintf(output,"byte "); 
+				fprintf(outputFile,"byte "); 
 				break;
 			case AST_BOOL: 	 
-				fprintf(output,"bool "); 
+				fprintf(outputFile,"bool "); 
 				break;
-			case AST_SYMBOL:	 
-				fprintf(output,"%s",root->symbol->text); 
+
+
+			case AST_SYMBOL:
+            case AST_LIT_INTEGER:
+            case AST_LIT_TRUE: 
+            case AST_LIT_FALSE:
+            case AST_LIT_CHAR: 
+            case AST_LIT_STRING:	 
+				fprintf(outputFile,"%s",root->symbol->text); 
 				decompile(root->son[0]); 
-				break;				
+				break;		
 			
 			/* ARIM OPERATIONS */
 			case AST_ADD:		
 				decompile(root->son[0]);
-				fprintf(output," + ");
+				fprintf(outputFile," + ");
 				decompile(root->son[1]);
 				break;
 			case AST_SUB:		
 				decompile(root->son[0]);
-				fprintf(output," - ");
+				fprintf(outputFile," - ");
 				decompile(root->son[1]);
 				break;
 			case AST_MUL:		
 				decompile(root->son[0]);
-				fprintf(output," * ");
+				fprintf(outputFile," * ");
 				decompile(root->son[1]);
 				break;
 			case AST_DIV:		
 				decompile(root->son[0]);
-				fprintf(output," / ");
+				fprintf(outputFile," / ");
 				decompile(root->son[1]);
 				break;								
 			
 			/* LOGICAL OPERATIONS*/
 			case AST_GREATER:	
 				decompile(root->son[0]);
-				fprintf(output," > ");
+				fprintf(outputFile," > ");
 				decompile(root->son[1]);
 				break;
 			case AST_LESS:		
 				decompile(root->son[0]);
-				fprintf(output," < ");
+				fprintf(outputFile," < ");
 				decompile(root->son[1]);
 				break;
 			case AST_AND:		
 				decompile(root->son[0]);
-				fprintf(output," && ");
+				fprintf(outputFile," && ");
 				decompile(root->son[1]);
 				break;
 			case AST_OR:		
 				decompile(root->son[0]);
-				fprintf(output," || ");
+				fprintf(outputFile," || ");
 				decompile(root->son[1]);
 			case AST_LE:		
 				decompile(root->son[0]);
-				fprintf(output," <= ");
+				fprintf(outputFile," <= ");
 				decompile(root->son[1]);
 				break;
 			case AST_GE:		
 				decompile(root->son[0]);
-				fprintf(output," >= ");
+				fprintf(outputFile," >= ");
 				decompile(root->son[1]);
 				break;	
 			case AST_EQ:		
 				decompile(root->son[0]);
-				fprintf(output," == ");
+				fprintf(outputFile," == ");
 				decompile(root->son[1]);
 				break;
 			case AST_NE:		
 				decompile(root->son[0]);
-				fprintf(output," != ");
+				fprintf(outputFile," != ");
 				decompile(root->son[1]);
 				break;	
 			case AST_INV_EXPR:	
 				decompile(root->son[0]);
-				fprintf(output,"(");
+				fprintf(outputFile,"(");
 				decompile(root->son[1]);
-				fprintf(output,")");					
+				fprintf(outputFile,")");					
 				break;
 			case AST_BOOLEAN_INV:	 
-				fprintf(output,"!");
+				fprintf(outputFile,"!");
 				break;
 			case AST_ARIT_INV:	 
-				fprintf(output,"-");
+				fprintf(outputFile,"-");
 				break;					
 			
 			/* I/O */
 			case AST_IN:		 
-				fprintf(output,"input ");
-				fprintf(output,"%s",root->symbol->text); 
+				fprintf(outputFile,"input ");
+				fprintf(outputFile,"%s",root->symbol->text); 
 				decompile(root->son[1]);					
 				break;	
 			case AST_OUT:		 
-				fprintf(output,"output ");
+				fprintf(outputFile,"output ");
 				decompile(root->son[0]);
 				break;
 			case AST_OUT_ARG:	
 			if(root->symbol !=0)
-				fprintf(output,"%s",root->symbol->text);
+				fprintf(outputFile,"%s",root->symbol->text);
 				decompile(root->son[0]);
 					if(root->son[1]!=0)
-				fprintf(output,",");
+				fprintf(outputFile,",");
 				decompile(root->son[1]);				
-				break;					
-			
+				break;		
+			case AST_OUT_ARG_STR:	
+			if(root->symbol !=0)
+				fprintf(outputFile,"%s",root->symbol->text);
+				decompile(root->son[0]);
+					if(root->son[1]!=0)
+				fprintf(outputFile,",");
+				decompile(root->son[1]);				
+				break;			
 			/* EXPRESSION */
 			case AST_PAR_EXPR:	 
-				fprintf(output,"(");
+				fprintf(outputFile,"(");
 				decompile(root->son[1]);
-				fprintf(output,")");
+				fprintf(outputFile,")");
 				break;				
 			
 			/*	FLUX CONTROL */
 			case AST_IF:		 
-				fprintf(output,"if (");
+				fprintf(outputFile,"if (");
 				decompile(root->son[0]);
-				fprintf(output,") ");
+				fprintf(outputFile,") ");
 				decompile(root->son[1]);
 				decompile(root->son[2]);				
 				break;
 			case AST_CMD_THEN:	 
-				fprintf(output,"then "); 
+				fprintf(outputFile,"then "); 
 				break;
 			case AST_CMD_ELSE:	 
-				fprintf(output,"else "); 
+				fprintf(outputFile,"else "); 
 				break;
 			case AST_CMD_LOOP:	 
-				fprintf(output,"loop "); 
+				fprintf(outputFile,"loop "); 
 				break;				
 			
 			/* DECLARATIONS */
 			case AST_DEC:	
 				decompile(root->son[0]);
 				decompile(root->son[1]);
-				fprintf(output,";\n");			      	
+				fprintf(outputFile,";\n");			      	
 				break;
 			case AST_DECL:		
 				decompile(root->son[0]);
    				decompile(root->son[1]);
-				fprintf(output,";\n");					
+				fprintf(outputFile,";\n");					
 				break;
 			case AST_FUN_DEF:	 
 				decompile(root->son[0]);
-				fprintf(output,"%s (",root->symbol->text); 
+				fprintf(outputFile,"%s (",root->symbol->text); 
 				decompile(root->son[1]);
-				fprintf(output,")");
-				fprintf(output,"\n");
+				fprintf(outputFile,")");
+				fprintf(outputFile,"\n");
 				decompile(root->son[2]); 		
 				break;		
 			case AST_NDEC:  
 				decompile(root->son[0]);
-				fprintf(output,"%s:",root->symbol->text);
+				fprintf(outputFile,"%s:",root->symbol->text);
 				decompile(root->son[1]);
 				break;
 			case AST_POINTER_DEC: 	
 				decompile(root->son[0]);
-				fprintf(output,"$%s:",root->symbol->text); 
+				fprintf(outputFile,"$%s:",root->symbol->text); 
 				decompile(root->son[1]);					
 				break;
 			case AST_ARRAY_DEC: 	
 				decompile(root->son[0]);
-				fprintf(output,"%s[",root->symbol->text);
+				fprintf(outputFile,"%s[",root->symbol->text);
 				decompile(root->son[1]);
-				fprintf(output,"]");
+				fprintf(outputFile,"]");
 				if(root->son[2] !=0)
-					fprintf(output,":");
+					fprintf(outputFile,":");
 				decompile(root->son[2]);					
 				break;	
 			case AST_INDEX:		 
-				fprintf(output,"[");
+				fprintf(outputFile,"[");
 				decompile(root->son[0]);
-				fprintf(output,"]");
+				fprintf(outputFile,"]");
 				break;					
 				
 			/* POINTERS */
 			case AST_POINTER: 	 
-				fprintf(output,"$%s",root->symbol->text);
+				fprintf(outputFile,"$%s",root->symbol->text);
 				break;				
 			case AST_POINTER_ADDR:	 
-				fprintf(output,"&%s",root->symbol->text);
+				fprintf(outputFile,"&%s",root->symbol->text);
 				break;
 				
 			/* FUNCTIONS AND PARAMETERS */
 			case AST_PARAM:	
 				decompile(root->son[0]);
-				fprintf(output,"%s",root->symbol->text); 
+				fprintf(outputFile,"%s",root->symbol->text); 
 				if(root->son[1] !=0)
-					fprintf(output,",");
+					fprintf(outputFile,",");
 				decompile(root->son[1]);					
 				break;
 			case AST_PASS_PARAM:	
 				decompile(root->son[0]);
 				if(root->son[1]!=0)
-					fprintf(output,",");
+					fprintf(outputFile,",");
 				decompile(root->son[1]);		
 				break;	
 			case AST_PARAM_REF:	
-				fprintf(output,"$");
+				fprintf(outputFile,"$");
 				decompile(root->son[0]);
 				if(root->son[1]!=0)
-					fprintf(output,",");
+					fprintf(outputFile,",");
 				decompile(root->son[1]);		
 				break;						
 			case AST_FUNC_CALL:	 
-				fprintf(output,"%s",root->symbol->text);
-				fprintf(output,"(");
+				fprintf(outputFile,"%s",root->symbol->text);
+				fprintf(outputFile,"(");
 				decompile(root->son[0]);
-				fprintf(output,")");
+				fprintf(outputFile,")");
 				break;										
 			case AST_RETURN:	 
-				fprintf(output,"return ");
+				fprintf(outputFile,"return ");
 				decompile(root->son[0]);			
 				break;					
 				
 			/* ATRIBUITIONS */
 			case AST_ATRR: 
 				decompile(root->son[0]);
-				fprintf(output," = ");
+				fprintf(outputFile," = ");
 				decompile(root->son[1]);
 				break;				
 			case AST_ATRR_LIT:	
 				decompile(root->son[0]);
-				if(root->son[1])fprintf(output," ");
+				if(root->son[1])fprintf(outputFile," ");
 				decompile(root->son[1]);					
 				break;
 
@@ -401,6 +489,7 @@ void decompile(ast *root)
 	    }
     }
 }
+
 
 
 

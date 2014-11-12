@@ -1,7 +1,26 @@
-#include    "hash.h"
+/*
+ *
+ * Author: Miller Biazus
+ *		   Pedro Henrique Pinto Morales
+ * UFRGS - Instituto de Informática
+ * Etapa 4 - Compiladores - Prof. Marcelo de Oliveira Johann
+ * 2014/2
+ *
+ */
 
-#ifndef     AST_HEADER
-#define     AST_HEADER
+/*
+ *
+ * ast.h
+ * 
+ * Funções públicas do módulo ast. Verifique a implementação para
+ * maiores detalhes de como utilizar cada uma. 
+ * 
+ */
+
+#ifndef     __AST_H__
+#define     __AST_H__
+
+#include    "hash.h"
 
 #define		AST_PROGRAM_INI			100
 #define		AST_PROGRAM				101
@@ -20,6 +39,7 @@
 #define		AST_ATRR            	115
 #define		AST_OUT             	116
 #define		AST_OUT_ARG         	117
+#define     AST_OUT_ARG_STR         150
 #define		AST_IF              	118
 #define		AST_CMD_THEN        	119
 #define		AST_CMD_ELSE        	120
@@ -27,6 +47,11 @@
 #define		AST_RETURN          	122
 #define		AST_INDEX           	123
 #define		AST_SYMBOL          	124
+#define     AST_LIT_INTEGER         151
+#define     AST_LIT_TRUE            152
+#define     AST_LIT_FALSE           153
+#define     AST_LIT_CHAR            154
+#define     AST_LIT_STRING          155
 #define		AST_POINTER_ADDR        125
 #define		AST_POINTER    	        126
 #define		AST_FUNC_CALL       	128
@@ -50,22 +75,53 @@
 #define		AST_WORD            	146
 #define		AST_BOOL            	147
 #define		AST_BYTE            	148
+#define		AST_UNDEFINED         	149
 
-#define MAX_SONS 4
+#define AST_SONS 4
 
-typedef struct AST_NODE {
-    int lineNumber;
+typedef struct ast_node {
     int type;
-    HASH_NODE* symbol;
-    struct AST_NODE *son[MAX_SONS];
-} ast;
+    int lineNumber;
+	int printFlag;
+    hash_t* symbol;
+    struct ast_node *son[AST_SONS];
+} ast_t;
 
-FILE    *input;
-FILE    *output;
 
-ast*    astCreate(int type, HASH_NODE *symbol, ast *s0,ast *s1, ast *s2, ast *s3);
-void    astPrintNode (ast *node);
-void    astPrintTree (ast* node, int level);
-void    decompile(ast *root);
+FILE *input;
+FILE *outputFile;
+
+/***************************************
+ * Function: astCreate
+ * Description:
+ * Input:
+ * Output:
+ ***************************************/
+ast_t* astCreate(int type, hash_t *symbol, ast_t *s0,ast_t *s1, ast_t *s2, ast_t *s3);
+
+/***************************************
+ * Function: astPrintNode
+ * Description:
+ * Input:
+ * Output:
+ ***************************************/
+void astPrintNode(ast_t *node);
+
+/***************************************
+ * Function: astPrintTree
+ * Description:
+ * Input:
+ * Output:
+ ***************************************/
+void astPrintTree(ast_t* node, int level);
+
+/***************************************
+ * Function: decompile
+ * Description:
+ * Input:
+ * Output:
+ ***************************************/
+void decompile(ast_t *root);
 
 #endif
+
